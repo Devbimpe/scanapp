@@ -1,4 +1,4 @@
-package com.bimdev.scanappservice.util;
+package com.scanapp.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -74,7 +74,6 @@ public class FileSearchUtils {
         boolean shouldAccept = fileExtensionList.stream().anyMatch(i -> fileName.endsWith(i));
         return shouldAccept;
 
-
     }
 
 
@@ -84,5 +83,10 @@ public class FileSearchUtils {
 
         return result;
     }
+
+//    public static void main(String ...args){
+//        FileSearchUtils fileSearchUtils=new FileSearchUtils(".doc,.txt");
+//        fileSearchUtils.accept(new File("Erevna Doc.docx"));
+//    }
 
 }
