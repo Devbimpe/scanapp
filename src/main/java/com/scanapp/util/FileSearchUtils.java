@@ -84,9 +84,10 @@ public class FileSearchUtils {
         return result;
     }
 
-//    public static void main(String ...args){
-//        FileSearchUtils fileSearchUtils=new FileSearchUtils(".doc,.txt");
-//        fileSearchUtils.accept(new File("Erevna Doc.docx"));
-//    }
+    public static void main(String ...args){
+        FileSearchUtils fileSearchUtils=new FileSearchUtils(".doc,.txt");
+        fileSearchUtils.listFoundFiles();
+
+    }
 
 }
