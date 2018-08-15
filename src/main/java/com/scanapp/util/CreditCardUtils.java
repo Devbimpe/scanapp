@@ -1,8 +1,14 @@
 package com.scanapp.util;
 
+
+import org.apache.commons.lang3.math.NumberUtils;
+
 public class CreditCardUtils {
 
     public  static boolean isCreditCardNumber(String str) {
+        if (!NumberUtils.isDigits(str)){
+            return false;
+        }
 
         int[] ints = new int[str.length()];
         for (int i = 0; i < str.length(); i++) {
