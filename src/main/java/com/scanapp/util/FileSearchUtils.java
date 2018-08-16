@@ -1,6 +1,7 @@
 package com.scanapp.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class FileSearchUtils implements Serializable {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private Set<String> creditCardsList = new HashSet<>();
+
 
     private String commaSeparatedListOfExtensions;
 
@@ -139,35 +140,44 @@ public class FileSearchUtils implements Serializable {
 
 
     private Set<String> getCreditCardsFromFile(String fileName) throws IOException {
-        FileInputStream inputStream = null;
-        Scanner input = null;
+     Set<String> creditCardsList = new HashSet<>();
        try {
 
            File file = new File(fileName);
-           inputStream = new FileInputStream(file);
-            input = new Scanner(file);
 
-
-           while (input.hasNext()) {
-               String word = input.next();
-               System.out.println(String.format("checking if word %s is a credit card" ,word));
-               if (CreditCardUtils.isCreditCardNumber(word)) {
-                   creditCardsList.add(word);
-               }
-
+           String data = FileUtils.readFileToString(file);
+           System.out.println("whole data "+data);
+           String[] words = data.split("\\s+");
+           for (int i = 0; i < words.length; i++) {
+               // You may want to check for a non-word character before blindly
+               // performing a replacement
+               // It may also be necessary to adjust the character class
+               words[i] = words[i].replaceAll("[^\\w]", "");
            }
+
+          Arrays.asList(words)
+                  .parallelStream()
+                  .forEach(
+                          i->{
+                              System.out.println(String.format("checking if word %s is a credit card" ,i));
+                              if (CreditCardUtils.isCreditCardNumber(i) ){
+                                  creditCardsList.add(i);
+                              }
+
+                          }
+
+
+                  );
+
+
+
+
+
        }catch (Exception e){
            System.out.println(e.getLocalizedMessage());
            e.printStackTrace();
 
 
-       }finally {
-           if (inputStream != null) {
-               inputStream.close();
-           }
-           if (input != null) {
-               input.close();
-           }
        }
 
         System.out.println("current records "+creditCardsList);
@@ -176,6 +186,7 @@ public class FileSearchUtils implements Serializable {
 
 
     private ArrayList<String> sparkWordCount(String filename) {
+        Set<String> creditCardsList = new HashSet<>();
        ArrayList<String> cards = new ArrayList<>();
         System.out.println("filename is------------------" + filename);
         JavaSparkContext sc = new JavaSparkContext("local", "Word Count");
