@@ -1,32 +1,28 @@
 package com.scanapp.util;
 
-import akka.dispatch.Foreach;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import scala.Tuple2;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.SecureRandom;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 public class FileSearchUtils implements Serializable {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Set<String> creditCardsList = new HashSet<>();
 
     private String commaSeparatedListOfExtensions;
 
@@ -39,12 +35,12 @@ public class FileSearchUtils implements Serializable {
     /**
      * @return root directory file path
      */
-    private  String rootDirectory() {
+    private String rootDirectory() {
         return File.listRoots()[0].getAbsolutePath();
     }
 
 
-    private void searchDirectory(File directory) {
+    private void searchDirectory(File directory) throws IOException {
 
 
         if (directory.isDirectory()) {
@@ -56,7 +52,7 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    private void search(File file) {
+    private void search(File file) throws IOException {
 
         if (file.isDirectory()) {
 
@@ -70,11 +66,12 @@ public class FileSearchUtils implements Serializable {
                     } else {
                         if (accept(temp)) {
                             result.add(temp.getAbsoluteFile().toString());
+                            System.out.println(temp.getAbsoluteFile().toString());
+                            Set<String> cards = getCreditCardsFromFile(temp.getAbsoluteFile().toString());
 
-                            ArrayList<String> cards = sparkWordCount(temp.getAbsoluteFile().toString());
-                            if(cards.size()>0) {
+                            if (cards.size() > 0) {
                                 try {
-                                    writeToFile(cards,temp.getAbsoluteFile().toString());
+                                    writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsoluteFile().toString());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -86,38 +83,36 @@ public class FileSearchUtils implements Serializable {
                 }
 
             } else {
-               // System.out.println(file.getAbsoluteFile() + " Permission Denied");
+                // System.out.println(file.getAbsoluteFile() + " Permission Denied");
             }
         }
 
     }
 
 
-    public String ReadStringFromFileLineByLine(String fil){
+    public String ReadStringFromFileLineByLine(String fil) {
         StringBuffer stringBuffer = new StringBuffer();
         BufferedReader br;
         List<String> list;
-            try {
-                String sCurrentLine;
-                br = new BufferedReader(new FileReader(fil));
-                while ((sCurrentLine = br.readLine()) != null) {
-                    stringBuffer.append(sCurrentLine);
-                }
-                String[] words = stringBuffer.toString().split("\\s");
-                list = Arrays.asList(words);
-                br.close();
-                System.out.println("Contents of file:");
-                for (String string : list) {
-                    System.out.println(string);
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            String sCurrentLine;
+            br = new BufferedReader(new FileReader(fil));
+            while ((sCurrentLine = br.readLine()) != null) {
+                stringBuffer.append(sCurrentLine);
             }
-            return stringBuffer.toString();
+            String[] words = stringBuffer.toString().split("\\s");
+            list = Arrays.asList(words);
+            br.close();
+            System.out.println("Contents of file:");
+            for (String string : list) {
+                System.out.println(string);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuffer.toString();
     }
-
-
 
 
     private boolean accept(File file) {
@@ -129,7 +124,7 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public  List<String> listFoundFiles(){
+    public List<String> listFoundFiles() throws IOException {
         Path rootDir = Paths.get(rootDirectory());
         searchDirectory(rootDir.toFile());
 
@@ -137,19 +132,32 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-
-
-    public static void main(String ...args){
-        FileSearchUtils fileSearchUtils=new FileSearchUtils(".docx");
+    public static void main(String... args) throws IOException {
+        FileSearchUtils fileSearchUtils = new FileSearchUtils(".docx");
         List<String> ff = fileSearchUtils.listFoundFiles();
 
     }
 
 
+    private Set<String> getCreditCardsFromFile(String fileName) throws IOException {
 
-    public ArrayList<String> sparkWordCount(String filename){
+        File file = new File(fileName);
+        Scanner input = new Scanner(file);
+        while (input.hasNext()) {
+            String word = input.next();
+            if (CreditCardUtils.isCreditCardNumber(word)) {
+                creditCardsList.add(word);
+            }
+
+        }
+
+        return creditCardsList;
+    }
+
+
+    public ArrayList<String> sparkWordCount(String filename) {
         ArrayList<String> cards = new ArrayList<>();
-        System.out.println("filename is------------------"+filename);
+        System.out.println("filename is------------------" + filename);
         JavaSparkContext sc = new JavaSparkContext("local", "Word Count");
         JavaRDD<String> input = sc.textFile(filename);
         JavaRDD<String> words = input.flatMap((FlatMapFunction<String, String>) s -> Arrays.asList(s.split(" ")));
@@ -159,7 +167,7 @@ public class FileSearchUtils implements Serializable {
 
         for (Tuple2<?, ?> tuple : output) {
 
-            if (CreditCardUtils.isCreditCardNumber(tuple._1().toString())){
+            if (CreditCardUtils.isCreditCardNumber(tuple._1().toString())) {
                 cards.add(tuple._1().toString());
 
             }
@@ -170,8 +178,8 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public void writeToFile(List<String> results, String filename) throws IOException{
-        File outFile = new File("tofile"+generateNum());
+    public void writeToFile(List<String> results, String filename) throws IOException {
+        File outFile = new File("tofile" + generateNum());
         FileWriter fWriter = new FileWriter(outFile);
         PrintWriter pWriter = new PrintWriter(fWriter);
         pWriter.println(filename);
@@ -182,9 +190,9 @@ public class FileSearchUtils implements Serializable {
         pWriter.close();
     }
 
-    private String generateNum(){
+    private String generateNum() {
 
-        Random r = new Random(System.currentTimeMillis() );
+        Random r = new Random(System.currentTimeMillis());
         int random = 1000000000 + r.nextInt(9999999);
         return Integer.toString(random);
     }
