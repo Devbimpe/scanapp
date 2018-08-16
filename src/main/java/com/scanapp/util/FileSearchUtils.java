@@ -8,19 +8,25 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import scala.Tuple2;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.*;
 
 
 @Slf4j
 public class FileSearchUtils implements Serializable {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private String commaSeparatedListOfExtensions;
 
@@ -65,7 +71,14 @@ public class FileSearchUtils implements Serializable {
                         if (accept(temp)) {
                             result.add(temp.getAbsoluteFile().toString());
 
-                            sparkWordCount(temp.getAbsoluteFile().toString());
+                            ArrayList<String> cards = sparkWordCount(temp.getAbsoluteFile().toString());
+                            if(cards.size()>0) {
+                                try {
+                                    writeToFile(cards,temp.getAbsoluteFile().toString());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
                         }
 
@@ -127,32 +140,52 @@ public class FileSearchUtils implements Serializable {
 
 
     public static void main(String ...args){
-        FileSearchUtils fileSearchUtils=new FileSearchUtils(".txt");
+        FileSearchUtils fileSearchUtils=new FileSearchUtils(".docx");
         List<String> ff = fileSearchUtils.listFoundFiles();
 
     }
 
 
 
-    public void sparkWordCount(String filename){
-
+    public ArrayList<String> sparkWordCount(String filename){
+        ArrayList<String> cards = new ArrayList<>();
+        System.out.println("filename is------------------"+filename);
         JavaSparkContext sc = new JavaSparkContext("local", "Word Count");
         JavaRDD<String> input = sc.textFile(filename);
         JavaRDD<String> words = input.flatMap((FlatMapFunction<String, String>) s -> Arrays.asList(s.split(" ")));
         JavaPairRDD<String, Integer> counts = words.mapToPair((PairFunction<String, String, Integer>) s -> new Tuple2(s, 1));
-
-       // JavaPairRDD<String, Integer> reducedCounts = counts.reduceByKey((Function2<Integer, Integer, Integer>) (x, y) -> x + y);
-
         System.out.println("------------------------got here--------");
-       // System.out.println(reducedCounts);
         List<Tuple2<String, Integer>> output = counts.collect();
-        for (Tuple2<?, ?> tuple : output) {
-            if (CreditCardUtils.isCreditCardNumber(tuple._1().toString()))
-            System.out.println(tuple._1() + ": " + tuple._2());
-        }
-        sc.stop();
-        //reducedCounts.saveAsTextFile("output");
 
+        for (Tuple2<?, ?> tuple : output) {
+            if (CreditCardUtils.isCreditCardNumber(tuple._1().toString())){
+                cards.add(tuple._1().toString());
+            }
+
+        }
+
+        sc.stop();
+        return cards;
+    }
+
+
+    public void writeToFile(List<String> results, String filename) throws IOException{
+        File outFile = new File("tofile"+generateNum());
+        FileWriter fWriter = new FileWriter(outFile);
+        PrintWriter pWriter = new PrintWriter(fWriter);
+        pWriter.println(filename);
+        for (String result : results) {
+            pWriter.println(result);
+        }
+
+        pWriter.close();
+    }
+
+    private String generateNum(){
+
+        Random r = new Random(System.currentTimeMillis() );
+        int random = 1000000000 + r.nextInt(9999999);
+        return Integer.toString(random);
     }
 
 }

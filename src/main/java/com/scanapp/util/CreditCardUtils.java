@@ -1,12 +1,14 @@
 package com.scanapp.util;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 public class CreditCardUtils {
 
     public  static boolean isCreditCardNumber(String str) {
-        if (!NumberUtils.isParsable(str)){
+        str=StringUtils.trim(str);
+        if (!NumberUtils.isDigits(str)){
             return false;
         }
 
@@ -36,8 +38,8 @@ public class CreditCardUtils {
     }
 
 
-    public void main(String[] args) {
-        isCreditCardNumber("12345678903555");
+    public static  void main(String[] args) {
+        isCreditCardNumber("  12345678903555  ");
         String imei = "012850003580200";
         isCreditCardNumber(imei);
     }
