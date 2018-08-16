@@ -66,9 +66,7 @@ public class FileSearchUtils implements Serializable {
                     } else {
                         if (accept(temp)) {
                             result.add(temp.getAbsoluteFile().toString());
-                            System.out.println(temp.getAbsoluteFile().toString());
-                            Set<String> cards = getCreditCardsFromFile(temp.getAbsoluteFile().toString());
-
+                            List<String> cards = sparkWordCount(temp.getAbsoluteFile().toString());
                             if (cards.size() > 0) {
                                 try {
                                     writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsoluteFile().toString());
@@ -176,8 +174,8 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public ArrayList<String> sparkWordCount(String filename) {
-        ArrayList<String> cards = new ArrayList<>();
+    private ArrayList<String> sparkWordCount(String filename) {
+       ArrayList<String> cards = new ArrayList<>();
         System.out.println("filename is------------------" + filename);
         JavaSparkContext sc = new JavaSparkContext("local", "Word Count");
         JavaRDD<String> input = sc.textFile(filename);
@@ -188,12 +186,14 @@ public class FileSearchUtils implements Serializable {
 
         for (Tuple2<?, ?> tuple : output) {
 
-            if (CreditCardUtils.isCreditCardNumber(tuple._1().toString())) {
-                cards.add(tuple._1().toString());
+            System.out.println(String.format("checking if word %s is a credit card" ,tuple._1()));
+            if (CreditCardUtils.isCreditCardNumber(""+tuple._1())) {
+               cards.add(tuple._1().toString());
+                creditCardsList.add(""+tuple._1());
+            }
 
             }
-        }
-
+        System.out.println("current data "+creditCardsList);
         sc.stop();
         return cards;
     }
