@@ -8,9 +8,12 @@ public class CreditCardUtils {
 
     public  static boolean isCreditCardNumber(String str) {
         str=StringUtils.trim(str);
-        if (!NumberUtils.isDigits(str)){
+        if (!NumberUtils.isParsable(str)){
             return false;
         }
+       if (Long.parseLong(str)<=0){
+            return false;
+       }
 
         int[] ints = new int[str.length()];
         for (int i = 0; i < str.length(); i++) {
@@ -41,7 +44,7 @@ public class CreditCardUtils {
     public static  void main(String[] args) {
         isCreditCardNumber("  12345678903555  ");
         String imei = "012850003580200";
-        isCreditCardNumber(imei);
+        isCreditCardNumber("000000");
     }
 
 }
