@@ -140,17 +140,38 @@ public class FileSearchUtils implements Serializable {
 
 
     private Set<String> getCreditCardsFromFile(String fileName) throws IOException {
+        FileInputStream inputStream = null;
+        Scanner input = null;
+       try {
 
-        File file = new File(fileName);
-        Scanner input = new Scanner(file);
-        while (input.hasNext()) {
-            String word = input.next();
-            if (CreditCardUtils.isCreditCardNumber(word)) {
-                creditCardsList.add(word);
-            }
+           File file = new File(fileName);
+           inputStream = new FileInputStream(file);
+            input = new Scanner(file);
 
-        }
 
+           while (input.hasNext()) {
+               String word = input.next();
+               System.out.println(String.format("checking if word %s is a credit card" ,word));
+               if (CreditCardUtils.isCreditCardNumber(word)) {
+                   creditCardsList.add(word);
+               }
+
+           }
+       }catch (Exception e){
+           System.out.println(e.getLocalizedMessage());
+           e.printStackTrace();
+
+
+       }finally {
+           if (inputStream != null) {
+               inputStream.close();
+           }
+           if (input != null) {
+               input.close();
+           }
+       }
+
+        System.out.println("current records "+creditCardsList);
         return creditCardsList;
     }
 
