@@ -140,7 +140,7 @@ public class FileSearchUtils implements Serializable {
 
 
     public static void main(String ...args){
-        FileSearchUtils fileSearchUtils=new FileSearchUtils(".docx");
+        FileSearchUtils fileSearchUtils=new FileSearchUtils(".dot");
         List<String> ff = fileSearchUtils.listFoundFiles();
 
     }
@@ -159,9 +159,8 @@ public class FileSearchUtils implements Serializable {
 
         for (Tuple2<?, ?> tuple : output) {
             if (CreditCardUtils.check(tuple._1().toString())){
-                cards.add(tuple._1().toString());
+                cards.add("this is one"+tuple._1().toString());
             }
-
         }
 
         sc.stop();
