@@ -6,7 +6,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 public class CreditCardUtils {
 
     public  static boolean isCreditCardNumber(String str) {
-        if (!NumberUtils.isDigits(str)){
+        if (!NumberUtils.isParsable(str)){
             return false;
         }
 
