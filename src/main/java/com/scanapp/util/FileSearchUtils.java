@@ -67,7 +67,7 @@ public class FileSearchUtils implements Serializable {
                         if (accept(temp)) {
                             result.add(temp.getAbsoluteFile().toString());
 
-                            List<String> cards = sparkWordCount(temp.getAbsoluteFile().toString());
+                            Set<String> cards = getCreditCardsFromFile(temp.getAbsoluteFile().toString());
                             if (cards.size() > 0) {
                                 try {
                                     writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsoluteFile().toString());
