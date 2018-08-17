@@ -2,46 +2,70 @@ package com.scanapp.util;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 public class CreditCardUtils {
 
-    public  static boolean isCreditCardNumber(String str) {
-        str=StringUtils.trim(str);
-        if (!NumberUtils.isParsable(str)){
-            return false;
-        }
-       if (Long.parseLong(str)<=0){
-            return false;
-       }
 
-        int[] ints = new int[str.length()];
-        for (int i = 0; i < str.length(); i++) {
-            ints[i] = Integer.parseInt(str.substring(i, i + 1));
+    public static boolean isCreditCardNumber(String str) {
+        if (StringUtils.isBlank(str))
+            return false;
+
+        return luhnCheck(str);
+    }
+
+    /**
+     * Checks if the card is valid
+     *
+     * @param card {@link String} card number
+     * @return result {@link boolean} true of false
+     */
+    private static boolean luhnCheck(String card) {
+        if (StringUtils.isBlank(card))
+            return false;
+        char checkDigit = card.charAt(card.length() - 1);
+        String digit = calculateCheckDigit(card.substring(0, card.length() - 1));
+        return checkDigit == digit.charAt(0);
+    }
+
+    /**
+     * Calculates the last digits for the card number received as parameter
+     *
+     * @param card {@link String} number
+     * @return {@link String} the check digit
+     */
+    private static String calculateCheckDigit(String card) {
+        if (card == null)
+            return null;
+        String digit;
+        /* convert to array of int for simplicity */
+        int[] digits = new int[card.length()];
+        for (int i = 0; i < card.length(); i++) {
+            digits[i] = Character.getNumericValue(card.charAt(i));
         }
-        for (int i = ints.length - 2; i >= 0; i = i - 2) {
-            int j = ints[i];
-            j = j * 2;
-            if (j > 9) {
-                j = j % 10 + 1;
+
+        /* double every other starting from right - jumping from 2 in 2 */
+        for (int i = digits.length - 1; i >= 0; i -= 2) {
+            digits[i] += digits[i];
+
+            /* taking the sum of digits grater than 10 - simple trick by substract 9 */
+            if (digits[i] >= 10) {
+                digits[i] = digits[i] - 9;
             }
-            ints[i] = j;
         }
         int sum = 0;
-        for (int i = 0; i < ints.length; i++) {
-            sum += ints[i];
+        for (int i = 0; i < digits.length; i++) {
+            sum += digits[i];
         }
-        if (sum % 10 == 0) {
-            System.out.println(str + " is a valid credit card number");
-            return true;
-        } else {
-            System.out.println(str + " is an invalid credit card number");
-            return false;
-        }
+        /* multiply by 9 step */
+        sum = sum * 9;
+
+        /* convert to string to be easier to take the last digit */
+        digit = sum + "";
+        return digit.substring(digit.length() - 1);
     }
 
 
-    public static  void main(String[] args) {
+    public static void main(String[] args) {
         isCreditCardNumber("  12345678903555  ");
         String imei = "012850003580200";
         isCreditCardNumber("000000");

@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FileSearchUtils implements Serializable {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     private String commaSeparatedListOfExtensions;
@@ -118,8 +117,7 @@ public class FileSearchUtils implements Serializable {
     private boolean accept(File file) {
         String fileName = file.getAbsolutePath();
         Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
-        boolean shouldAccept = fileExtensionList.stream().anyMatch(i -> fileName.endsWith(i));
-        return shouldAccept;
+        return fileExtensionList.stream().anyMatch(fileName::endsWith);
 
     }
 
