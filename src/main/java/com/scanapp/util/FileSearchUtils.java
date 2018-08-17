@@ -46,7 +46,7 @@ public class FileSearchUtils implements Serializable {
         if (directory.isDirectory()) {
             search(directory);
         } else {
-            System.out.println(directory.getAbsoluteFile() + " is not a directory!");
+            //System.out.println(directory.getAbsoluteFile() + " is not a directory!");
         }
 
     }
