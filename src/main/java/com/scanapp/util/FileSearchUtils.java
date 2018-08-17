@@ -40,19 +40,19 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    private void searchDirectory(File directory) throws IOException {
+    private void searchDirectory(File directory)  {
 
 
         if (directory.isDirectory()) {
             search(directory);
         } else {
-            System.out.println(directory.getAbsoluteFile() + " is not a directory!");
+            //System.out.println(directory.getAbsoluteFile() + " is not a directory!");
         }
 
     }
 
 
-    private void search(File file) throws IOException {
+    private void search(File file) {
 
         if (file.isDirectory()) {
 
@@ -66,9 +66,10 @@ public class FileSearchUtils implements Serializable {
                     } else {
                         if (accept(temp)) {
                             Set<String> cards = getCreditCardsFromFile(temp.getAbsolutePath());
+                            System.out.println("cards seen "+cards);
                             if (cards.size() > 0) {
                                 try {
-                                    writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
+                                    //writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -208,7 +209,7 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public void writeToFile(List<String> results, String filename) throws IOException {
+  /**  public void writeToFile(List<String> results, String filename) throws IOException {
         File outFile = new File("tofile" + generateNum());
         FileWriter fWriter = new FileWriter(outFile);
         PrintWriter pWriter = new PrintWriter(fWriter);
@@ -219,7 +220,7 @@ public class FileSearchUtils implements Serializable {
 
         pWriter.close();
     }
-
+**/
     private String generateNum() {
 
         Random r = new Random(System.currentTimeMillis());
