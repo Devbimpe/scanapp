@@ -133,7 +133,7 @@ public class FileSearchUtils implements Serializable {
 
 
     public static void main(String... args) throws IOException {
-        FileSearchUtils fileSearchUtils = new FileSearchUtils(".dot");
+        FileSearchUtils fileSearchUtils = new FileSearchUtils(".docx");
         List<String> ff = fileSearchUtils.listFoundFiles();
 
     }
