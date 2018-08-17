@@ -9,6 +9,7 @@ public class CreditCardUtils {
     public static boolean isCreditCardNumber(String str) {
         if (StringUtils.isBlank(str))
             return false;
+        str = StringUtils.trim(str);
 
         return luhnCheck(str);
     }
@@ -66,7 +67,7 @@ public class CreditCardUtils {
 
 
     public static void main(String[] args) {
-        isCreditCardNumber("  12345678903555  ");
+        isCreditCardNumber("zMeg75YTwz7rzyU7ZugAmCfBhuxZwSAMjDx4");
         String imei = "012850003580200";
         isCreditCardNumber("000000");
     }

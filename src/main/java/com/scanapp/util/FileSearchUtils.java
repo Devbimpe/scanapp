@@ -30,7 +30,7 @@ public class FileSearchUtils implements Serializable {
         this.commaSeparatedListOfExtensions = commaSeparatedListOfExtensions;
     }
 
-    private List<String> result = new ArrayList<String>();
+
 
     /**
      * @return root directory file path
@@ -65,12 +65,10 @@ public class FileSearchUtils implements Serializable {
                         search(temp);
                     } else {
                         if (accept(temp)) {
-                            result.add(temp.getAbsoluteFile().toString());
-
-                            Set<String> cards = getCreditCardsFromFile(temp.getAbsoluteFile().toString());
+                            Set<String> cards = getCreditCardsFromFile(temp.getAbsolutePath());
                             if (cards.size() > 0) {
                                 try {
-                                    writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsoluteFile().toString());
+                                    writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -122,22 +120,23 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public List<String> listFoundFiles() throws IOException {
+    public void listFoundFiles() throws IOException {
         Path rootDir = Paths.get(rootDirectory());
         searchDirectory(rootDir.toFile());
 
-        return result;
+
     }
 
 
     public static void main(String... args) throws IOException {
+
         FileSearchUtils fileSearchUtils = new FileSearchUtils(".docx");
-        List<String> ff = fileSearchUtils.listFoundFiles();
+      fileSearchUtils.listFoundFiles();
 
     }
 
 
-    private Set<String> getCreditCardsFromFile(String fileName) throws IOException {
+    private Set<String> getCreditCardsFromFile(String fileName) {
      Set<String> creditCardsList = new HashSet<>();
        try {
 
@@ -167,7 +166,7 @@ public class FileSearchUtils implements Serializable {
 
                   );
 
-
+           System.out.println(String.format("cards found in file  %s ",fileName)+"  "+creditCardsList);
 
 
 
