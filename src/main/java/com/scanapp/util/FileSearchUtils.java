@@ -56,7 +56,7 @@ public class FileSearchUtils implements Serializable {
 
         if (file.isDirectory()) {
 
-            // System.out.println("Searching directory ... " + file.getAbsoluteFile());
+            // System.out.println("Searcmnehing directory ... " + file.getAbsoluteFile());
 
             //do you have permission to read this directory?
             if (file.canRead()) {
