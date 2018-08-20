@@ -133,10 +133,11 @@ private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new Simple
 
     private Set<String> getCreditCardsFromFile(String fileName) {
         Set<String> creditCardsList = new HashSet<>();
+        FileInputStream fileInputStream=null;
         try {
 
             File file = new File(fileName);
-            FileInputStream fileInputStream = new FileInputStream(file);
+           fileInputStream = new FileInputStream(file);
 
             String data = extractContentUsingParser(fileInputStream);
 
@@ -171,6 +172,14 @@ private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new Simple
             e.printStackTrace();
 
 
+        }finally {
+            if (fileInputStream!=null){
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+
+                }
+            }
         }
 
         System.out.println("current records " + creditCardsList);
