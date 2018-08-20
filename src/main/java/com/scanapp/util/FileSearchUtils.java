@@ -1,28 +1,29 @@
 package com.scanapp.util;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.PairFunction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.util.StringUtils;
-import scala.Tuple2;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Slf4j
 public class FileSearchUtils implements Serializable {
-
-
+private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new SimpleDateFormat("ddMMyy"));
 
     private String commaSeparatedListOfExtensions;
 
@@ -31,16 +32,15 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-
     /**
      * @return root directory file path
      */
-    private String rootDirectory() {
+    public static String rootDirectory() {
         return File.listRoots()[0].getAbsolutePath();
     }
 
 
-    private void searchDirectory(File directory)  {
+    private void searchDirectory(File directory) {
 
 
         if (directory.isDirectory()) {
@@ -65,11 +65,12 @@ public class FileSearchUtils implements Serializable {
                         search(temp);
                     } else {
                         if (accept(temp)) {
+
                             Set<String> cards = getCreditCardsFromFile(temp.getAbsolutePath());
-                            System.out.println("cards seen "+cards);
+                            System.out.println("cards seen " + cards);
                             if (cards.size() > 0) {
                                 try {
-                                    //writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
+                                     writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -88,33 +89,15 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public String ReadStringFromFileLineByLine(String fil) {
-        StringBuffer stringBuffer = new StringBuffer();
-        BufferedReader br;
-        List<String> list;
-        try {
-            String sCurrentLine;
-            br = new BufferedReader(new FileReader(fil));
-            while ((sCurrentLine = br.readLine()) != null) {
-                stringBuffer.append(sCurrentLine);
-            }
-            String[] words = stringBuffer.toString().split("\\s");
-            list = Arrays.asList(words);
-            br.close();
-            System.out.println("Contents of file:");
-            for (String string : list) {
-                System.out.println(string);
+    public boolean accept(File file) {
+        String fileName = file.getAbsolutePath();
+        Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
+        return fileExtensionList.stream().anyMatch(fileName::endsWith);
 
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stringBuffer.toString();
     }
 
 
-    private boolean accept(File file) {
-        String fileName = file.getAbsolutePath();
+    public boolean accept(String fileName) {
         Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
         return fileExtensionList.stream().anyMatch(fileName::endsWith);
 
@@ -132,99 +115,112 @@ public class FileSearchUtils implements Serializable {
     public static void main(String... args) throws IOException {
 
         FileSearchUtils fileSearchUtils = new FileSearchUtils(".docx");
-      fileSearchUtils.listFoundFiles();
+        fileSearchUtils.listFoundFiles();
 
     }
 
+    public static String extractContentUsingParser(InputStream stream)
+            throws IOException, TikaException, SAXException {
+
+        Parser parser = new AutoDetectParser();
+        ContentHandler handler = new BodyContentHandler();
+        Metadata metadata = new Metadata();
+        ParseContext context = new ParseContext();
+
+        parser.parse(stream, handler, metadata, context);
+        return handler.toString();
+    }
 
     private Set<String> getCreditCardsFromFile(String fileName) {
-     Set<String> creditCardsList = new HashSet<>();
-       try {
+        Set<String> creditCardsList = new HashSet<>();
+        try {
 
-           File file = new File(fileName);
+            File file = new File(fileName);
+            FileInputStream fileInputStream = new FileInputStream(file);
 
-           String data = FileUtils.readFileToString(file);
-           System.out.println("whole data "+data);
-           String[] words = data.split("\\s+");
-           for (int i = 0; i < words.length; i++) {
-               // You may want to check for a non-word character before blindly
-               // performing a replacement
-               // It may also be necessary to adjust the character class
-               words[i] = words[i].replaceAll("[^\\w]", "");
-           }
+            String data = extractContentUsingParser(fileInputStream);
 
-          Arrays.asList(words)
-                  .parallelStream()
-                  .forEach(
-                          i->{
-                              System.out.println(String.format("checking if word %s is a credit card" ,i));
-                              if (CreditCardUtils.isCreditCardNumber(i) ){
-                                  creditCardsList.add(i);
-                              }
+            String[] words = data.split("\\s+");
+            for (int i = 0; i < words.length; i++) {
+                // You may want to check for a non-word character before blindly
+                // performing a replacement
+                // It may also be necessary to adjust the character class
+                words[i] = words[i].replaceAll("[^\\w]", "");
+            }
 
-                          }
+            Arrays.asList(words)
+                    .stream()
+                    .forEach(
+                            i -> {
 
+                                if (CreditCardUtils.isCreditCardNumber(i)) {
+                                    System.out.println(String.format("%s is a credit card", i));
+                                    creditCardsList.add(i);
+                                }
 
-                  );
-
-           System.out.println(String.format("cards found in file  %s ",fileName)+"  "+creditCardsList);
+                            }
 
 
+                    );
 
-       }catch (Exception e){
-           System.out.println(e.getLocalizedMessage());
-           e.printStackTrace();
+            System.out.println(String.format("cards found in file  %s ", fileName) + "  " + creditCardsList);
 
 
-       }
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+            e.printStackTrace();
 
-        System.out.println("current records "+creditCardsList);
+
+        }
+
+        System.out.println("current records " + creditCardsList);
         return creditCardsList;
     }
 
 
-    private ArrayList<String> sparkWordCount(String filename) {
-        Set<String> creditCardsList = new HashSet<>();
-       ArrayList<String> cards = new ArrayList<>();
-        System.out.println("filename is------------------" + filename);
-        JavaSparkContext sc = new JavaSparkContext("local", "Word Count");
-        JavaRDD<String> input = sc.textFile(filename);
-        JavaRDD<String> words = input.flatMap((FlatMapFunction<String, String>) s -> Arrays.asList(s.split(" ")));
-        JavaPairRDD<String, Integer> counts = words.mapToPair((PairFunction<String, String, Integer>) s -> new Tuple2(s, 1));
-        System.out.println("------------------------got here--------");
-        List<Tuple2<String, Integer>> output = counts.collect();
-
-        for (Tuple2<?, ?> tuple : output) {
-            System.out.println(String.format("checking if word %s is a credit card" ,tuple._1()));
-            if (CreditCardUtils.isCreditCardNumber(""+tuple._1())) {
-               cards.add(tuple._1().toString());
-                creditCardsList.add(""+tuple._1());
-            }
-
-        }
-        System.out.println("current data "+creditCardsList);
-        sc.stop();
-        return cards;
-    }
-
-
-  /**  public void writeToFile(List<String> results, String filename) throws IOException {
-        File outFile = new File("tofile" + generateNum());
-        FileWriter fWriter = new FileWriter(outFile);
-        PrintWriter pWriter = new PrintWriter(fWriter);
-        pWriter.println(filename);
-        for (String result : results) {
-            pWriter.println(result);
-        }
-
-        pWriter.close();
-    }
-**/
+    /**
+     * public void writeToFile(List<String> results, String filename) throws IOException {
+     * File outFile = new File("tofile" + generateNum());
+     * FileWriter fWriter = new FileWriter(outFile);
+     * PrintWriter pWriter = new PrintWriter(fWriter);
+     * pWriter.println(filename);
+     * for (String result : results) {
+     * pWriter.println(result);
+     * }
+     * <p>
+     * pWriter.close();
+     * }
+     **/
     private String generateNum() {
 
         Random r = new Random(System.currentTimeMillis());
         int random = 1000000000 + r.nextInt(9999999);
         return Integer.toString(random);
+    }
+
+
+    private  void writeToFile(List<String> creditCards , String fileName){
+        try{
+
+            creditCards
+                    .stream()
+                    .forEach(creditCard -> {
+                        try {
+                            FileUtils.writeStringToFile(recordFile, String.format("card pan (%s ) , file name (%s)",creditCard,fileName), true);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+
+
+
+
+
+        }catch (Exception e){
+            log.error("error occurred while writting to file "+e.getLocalizedMessage(),e);
+        }
+
     }
 
 }
