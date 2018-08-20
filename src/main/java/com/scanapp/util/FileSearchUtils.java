@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class FileSearchUtils implements Serializable {
-private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new SimpleDateFormat("ddMMyy"));
+private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new SimpleDateFormat("ddMMyy").format(new Date())+".log");
 
     private String commaSeparatedListOfExtensions;
 
