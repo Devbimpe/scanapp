@@ -123,7 +123,7 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
             throws IOException, TikaException, SAXException {
 
         Parser parser = new AutoDetectParser();
-        ContentHandler handler = new BodyContentHandler();
+        ContentHandler handler = new BodyContentHandler(-1);
         Metadata metadata = new Metadata();
         ParseContext context = new ParseContext();
 
