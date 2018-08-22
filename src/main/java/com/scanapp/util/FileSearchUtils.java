@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class FileSearchUtils implements Serializable {
-private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new SimpleDateFormat("ddMMyy").format(new Date())+".log");
+    private File recordFile = new File("/Users/edgeit1/Documents/testLog" + new SimpleDateFormat("ddMMyy").format(new Date()) + ".log");
 
     private String commaSeparatedListOfExtensions;
 
@@ -53,38 +53,46 @@ private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new Simple
 
 
     private void search(File file) {
+        try {
+            if (file.isDirectory()) {
 
-        if (file.isDirectory()) {
+                // System.out.println("Searching directory ... " + file.getAbsoluteFile());
 
-            // System.out.println("Searching directory ... " + file.getAbsoluteFile());
+                //do you have permission to read this directory?
+                if (file.canRead()) {
+                    for (File temp : (file.listFiles())) {
+                        if (temp == null)
+                            continue;
 
-            //do you have permission to read this directory?
-            if (file.canRead()) {
-                for (File temp : Objects.requireNonNull(file.listFiles())) {
-                    if (temp.isDirectory()) {
-                        search(temp);
-                    } else {
-                        if (accept(temp)) {
+                        if (temp.isDirectory()) {
+                            search(temp);
+                        } else {
+                            if (accept(temp)) {
 
-                            Set<String> cards = getCreditCardsFromFile(temp.getAbsolutePath());
-                            System.out.println("cards seen " + cards);
-                            if (cards.size() > 0) {
-                                try {
-                                     writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                Set<String> cards = getCreditCardsFromFile(temp.getAbsolutePath());
+                                System.out.println("cards seen " + cards);
+                                if (cards.size() > 0) {
+                                    try {
+                                        writeToFile(new ArrayList<>(cards), temp.getAbsolutePath());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
+
                             }
 
                         }
-
                     }
-                }
 
-            } else {
-                // System.out.println(file.getAbsoluteFile() + " Permission Denied");
+                } else {
+                    // System.out.println(file.getAbsoluteFile() + " Permission Denied");
+                }
             }
+
+        } catch (Exception e) {
+            log.error("exception occured while reading file " + e.getLocalizedMessage(), e);
         }
+
 
     }
 
@@ -133,11 +141,11 @@ private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new Simple
 
     private Set<String> getCreditCardsFromFile(String fileName) {
         Set<String> creditCardsList = new HashSet<>();
-        FileInputStream fileInputStream=null;
+        FileInputStream fileInputStream = null;
         try {
 
             File file = new File(fileName);
-           fileInputStream = new FileInputStream(file);
+            fileInputStream = new FileInputStream(file);
 
             String data = extractContentUsingParser(fileInputStream);
 
@@ -172,8 +180,8 @@ private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new Simple
             e.printStackTrace();
 
 
-        }finally {
-            if (fileInputStream!=null){
+        } finally {
+            if (fileInputStream != null) {
                 try {
                     fileInputStream.close();
                 } catch (IOException e) {
@@ -208,26 +216,22 @@ private File recordFile = new File("/Users/edgeit1/Documents/testLog"+new Simple
     }
 
 
-    private  void writeToFile(List<String> creditCards , String fileName){
-        try{
+    private void writeToFile(List<String> creditCards, String fileName) {
+        try {
 
             creditCards
                     .stream()
                     .forEach(creditCard -> {
                         try {
-                            FileUtils.writeStringToFile(recordFile, String.format("card pan (%s ) , file name (%s)",creditCard,fileName), true);
+                            FileUtils.writeStringToFile(recordFile, String.format("card pan (%s ) , file name (%s)", creditCard, fileName), true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     });
 
 
-
-
-
-
-        }catch (Exception e){
-            log.error("error occurred while writting to file "+e.getLocalizedMessage(),e);
+        } catch (Exception e) {
+            log.error("error occurred while writing to file " + e.getLocalizedMessage(), e);
         }
 
     }
