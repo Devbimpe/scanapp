@@ -100,7 +100,7 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
             }
 
         } catch (Exception e) {
-            log.error("exception occurred while reading file " + e.getLocalizedMessage(), e);
+            //log.error("exception occurred while reading file " + e.getLocalizedMessage(), e);
         }
 
 
@@ -245,7 +245,7 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
 
 
         } catch (Exception e) {
-            log.error("error occurred while writing to file " + e.getLocalizedMessage(), e);
+            //log.error("error occurred while writing to file " + e.getLocalizedMessage(), e);
 
         }
 
