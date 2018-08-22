@@ -60,29 +60,31 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
 
             //do you have permission to read this directory?
             if (file.canRead()) {
-                for (File temp : Objects.requireNonNull(file.listFiles())) {
-                    if (temp.isDirectory()) {
-                        search(temp);
-                    } else {
-                        if (accept(temp)) {
+                if (file.listFiles() != null) {
+                    for (File temp : Objects.requireNonNull(file.listFiles())) {
+                        if (temp.isDirectory()) {
+                            search(temp);
+                        } else {
+                            if (accept(temp)) {
 
-                            Set<String> cards = getCreditCardsFromFile(temp.getAbsolutePath());
-                            System.out.println("cards seen " + cards);
-                            if (cards.size() > 0) {
-                                try {
-                                     writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                Set<String> cards = getCreditCardsFromFile(temp.getAbsolutePath());
+                                System.out.println("cards seen " + cards);
+                                if (cards.size() > 0) {
+                                    try {
+                                        writeToFile(cards.stream().collect(Collectors.toList()), temp.getAbsolutePath());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
+
                             }
 
                         }
-
                     }
-                }
 
-            } else {
-                // System.out.println(file.getAbsoluteFile() + " Permission Denied");
+                } else {
+                    // System.out.println(file.getAbsoluteFile() + " Permission Denied");
+                }
             }
         }
 
