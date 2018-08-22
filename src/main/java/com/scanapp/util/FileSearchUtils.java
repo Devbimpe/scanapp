@@ -14,6 +14,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FileSearchUtils implements Serializable {
 
-private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDateFormat("ddMMyy").format(new Date())+".log");
+    private File recordFile = new File("/Users/user/Documents/testLog" + new SimpleDateFormat("ddMMyy").format(new Date()) + ".log");
 
 
     private String commaSeparatedListOfExtensions;
@@ -45,12 +46,13 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
     private void searchDirectory(File directory) {
 
 
-        if (directory.isDirectory()) {
-            search(directory);
-        } else {
-            //System.out.println(directory.getAbsoluteFile() + " is not a directory!");
-        }
+        if (Files.isReadable(directory.toPath())) {
 
+            if (directory.isDirectory()) {
+                search(directory);
+            }
+
+        }
     }
 
 
@@ -63,14 +65,21 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
 
                 //do you have permission to read this directory?
                 // is the file empty or a recycled bin
-                if (file.listFiles()!=null && file.canRead()) {
+                if (file.listFiles() != null && file.canRead()) {
 
-                    List<File> fileList =Arrays.stream(Objects.requireNonNull(file.listFiles())).collect(Collectors.toList());
+                    List<File> fileList = Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(i -> Files.isReadable(i.toPath())).collect(Collectors.toList());
 
                     for (File temp : fileList) {
                         if (temp == null)
                             continue;
 
+                        try {
+                            if (!Files.isReadable(temp.toPath())) {
+                                continue;
+                            }
+                        } catch (Exception e) {
+                            log.error(e.getLocalizedMessage(), e);
+                        }
 
                         if (temp.isDirectory()) {
                             search(temp);
@@ -108,9 +117,12 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
 
 
     public boolean accept(File file) {
-        String fileName = file.getAbsolutePath();
-        Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
-        return fileExtensionList.stream().anyMatch(fileName::endsWith);
+        if (Files.isReadable(file.toPath())) {
+            String fileName = file.getAbsolutePath();
+            Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
+            return fileExtensionList.stream().anyMatch(fileName::endsWith);
+        }
+        return false;
 
     }
 
@@ -122,7 +134,7 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
     }
 
 
-    public void listFoundFiles()  {
+    public void listFoundFiles() {
         Path rootDir = Paths.get(rootDirectory());
         searchDirectory(rootDir.toFile());
 
@@ -156,7 +168,6 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
 
             File file = new File(fileName);
             fileInputStream = new FileInputStream(file);
-
             String data = extractContentUsingParser(fileInputStream);
 
             String[] words = data.split("\\s+");
@@ -188,7 +199,6 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
             e.printStackTrace();
-
 
 
         } finally {
@@ -241,7 +251,6 @@ private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDat
                             e.printStackTrace();
                         }
                     });
-
 
 
         } catch (Exception e) {
