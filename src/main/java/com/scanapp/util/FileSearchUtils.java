@@ -23,7 +23,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class FileSearchUtils implements Serializable {
-    private File recordFile = new File("/Users/edgeit1/Documents/testLog" + new SimpleDateFormat("ddMMyy").format(new Date()) + ".log");
+
+private File recordFile = new File("/Users/user/Documents/testLog"+new SimpleDateFormat("ddMMyy").format(new Date())+".log");
+
 
     private String commaSeparatedListOfExtensions;
 
@@ -53,16 +55,22 @@ public class FileSearchUtils implements Serializable {
 
 
     private void search(File file) {
+
         try {
             if (file.isDirectory()) {
 
                 // System.out.println("Searching directory ... " + file.getAbsoluteFile());
 
                 //do you have permission to read this directory?
-                if (file.canRead()) {
-                    for (File temp : (file.listFiles())) {
+                // is the file empty or a recycled bin
+                if (file.listFiles()!=null && file.canRead()) {
+
+                    List<File> fileList =Arrays.stream(Objects.requireNonNull(file.listFiles())).collect(Collectors.toList());
+
+                    for (File temp : fileList) {
                         if (temp == null)
                             continue;
+
 
                         if (temp.isDirectory()) {
                             search(temp);
@@ -73,7 +81,9 @@ public class FileSearchUtils implements Serializable {
                                 System.out.println("cards seen " + cards);
                                 if (cards.size() > 0) {
                                     try {
+
                                         writeToFile(new ArrayList<>(cards), temp.getAbsolutePath());
+
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -90,7 +100,7 @@ public class FileSearchUtils implements Serializable {
             }
 
         } catch (Exception e) {
-            log.error("exception occured while reading file " + e.getLocalizedMessage(), e);
+            log.error("exception occurred while reading file " + e.getLocalizedMessage(), e);
         }
 
 
@@ -112,7 +122,7 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public void listFoundFiles() throws IOException {
+    public void listFoundFiles()  {
         Path rootDir = Paths.get(rootDirectory());
         searchDirectory(rootDir.toFile());
 
@@ -180,8 +190,10 @@ public class FileSearchUtils implements Serializable {
             e.printStackTrace();
 
 
+
         } finally {
             if (fileInputStream != null) {
+
                 try {
                     fileInputStream.close();
                 } catch (IOException e) {
@@ -189,6 +201,7 @@ public class FileSearchUtils implements Serializable {
                 }
             }
         }
+
 
         System.out.println("current records " + creditCardsList);
         return creditCardsList;
@@ -230,8 +243,10 @@ public class FileSearchUtils implements Serializable {
                     });
 
 
+
         } catch (Exception e) {
             log.error("error occurred while writing to file " + e.getLocalizedMessage(), e);
+
         }
 
     }
