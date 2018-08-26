@@ -78,7 +78,7 @@ public class FileSearchUtils implements Serializable {
                                 continue;
                             }
                         } catch (Exception e) {
-                            log.error(e.getLocalizedMessage(), e);
+                            //log.error(e.getLocalizedMessage(), e);
                         }
 
                         if (temp.isDirectory()) {
