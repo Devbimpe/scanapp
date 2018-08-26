@@ -25,8 +25,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FileSearchUtils implements Serializable {
 
-    private File recordFile = new File("/Users/user/Documents/testLog" + new SimpleDateFormat("ddMMyy").format(new Date()) + ".log");
+    private File recordFile ;
 
+    public void setRecordFilePath(String recordFilePath) {
+        this.recordFile = new File(recordFilePath+"testLog" + new SimpleDateFormat("ddMMyy").format(new Date()) + ".log") ;
+    }
 
     private String commaSeparatedListOfExtensions;
 
@@ -116,7 +119,7 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public boolean accept(File file) {
+    private boolean accept(File file) {
         if (Files.isReadable(file.toPath())) {
             String fileName = file.getAbsolutePath();
             Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
@@ -127,7 +130,7 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public boolean accept(String fileName) {
+    private boolean accept(String fileName) {
         Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
         return fileExtensionList.stream().anyMatch(fileName::endsWith);
 
@@ -142,14 +145,9 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public static void main(String... args) throws IOException {
 
-        FileSearchUtils fileSearchUtils = new FileSearchUtils(".docx");
-        fileSearchUtils.listFoundFiles();
 
-    }
-
-    public static String extractContentUsingParser(InputStream stream)
+    private static String extractContentUsingParser(InputStream stream)
             throws IOException, TikaException, SAXException {
 
         Parser parser = new AutoDetectParser();
