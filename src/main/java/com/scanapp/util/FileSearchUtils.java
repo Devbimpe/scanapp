@@ -234,6 +234,7 @@ public class FileSearchUtils implements Serializable {
     private String generateNum() {
 
         Random r = new Random(System.currentTimeMillis());
+
         int random = 1000000000 + r.nextInt(9999999);
         return Integer.toString(random);
     }
