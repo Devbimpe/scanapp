@@ -36,7 +36,9 @@ public class FileSearchUtils implements Serializable {
     public FileSearchUtils(String commaSeparatedListOfExtensions) {
         this.commaSeparatedListOfExtensions = commaSeparatedListOfExtensions;
     }
-
+    public FileSearchUtils() {
+        String file;
+    }
 
     /**
      * @return root directory file path
