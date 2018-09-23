@@ -289,6 +289,66 @@
 </header>
 <!-- END Topbar -->
 
+<!--second div for editing-->
+
+<div class="modal modal-center fade" id="modal-center-edit" tabindex="-1">
+    <div class="modal-dialog">
+
+        <form role="form" th:action="@{/update}" method="post">
+
+
+            <div class="modal-content">
+
+                <div class="modal-header" style="background-color:cornflowerblue">
+                    <h5 class="modal-title"><span style="color:white">Edit User Info</span></h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+
+
+                    <div class="col-md-12">
+
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" placeholder="First Name" id="fname" name="firstName"/>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+
+                        <div class="form-group">
+                            <label for="input-placeholder">Last Name</label>
+                            <input type="text" class="form-control" placeholder="Last Name" id="lname" th:text="*{lastName}" name="lastName"/>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+
+                        <div class="form-group">
+                            <label for="input-placeholder">Email</label>
+                            <input type="text" class="form-control" placeholder="Email" id="emailadd" th:value="*{email}" name="email" readonly style="border-color: orangered"/>
+                        </div>
+                    </div>
+
+
+                    </p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal">Close</button>
+                    <!--<button type="button" class="btn btn-bold btn-pure btn-info save-button" onclick="user_creation()">Save</button>-->
+                    <input type="submit" class="btn btn-bold btn-pure btn-info" value="Save"/>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+
 <main>
     <div class="main-content">
         <div class="row">
@@ -298,61 +358,62 @@
 
             <div class="col-lg-12">
                 <div class="card">
+                    <br>
+
                     <h4 class="card-title"><strong>Users</strong></h4>
                     <button class="btn btn-w-md btn-info" data-toggle="modal" data-target="#modal-center">Add User</button>
                     <div class="card-body">
                         <div class="modal modal-center fade" id="modal-center" tabindex="-1">
                             <div class="modal-dialog">
 
-                                <!--<form role="form" id="user-creation-form" enctype="multipart/form-data" action="#" th:action="">-->
-                                <!--<form role="form" action="#" th:action="@{/add}" method="post">-->
-                                <form role="form" action="#" th:action="@{/add}" method="post">
+                                <form role="form" th:action="@{/add}" method="post">
 
 
-                                <div class="modal-content">
+                                    <div class="modal-content">
 
-                                    <div class="modal-header" style="background-color:cornflowerblue">
-                                        <h5 class="modal-title"><span style="color:white">Edit User</span></h5>
-                                        <button type="button" class="close" data-dismiss="modal">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>
-
-
-                                        <div class="col-md-12">
-
-                                            <div class="form-group">
-                                                <label>First Name</label>
-                                                <input type="text" class="form-control" placeholder="First Name"  th:value="*{firstname}"/>
-                                            </div>
+                                        <div class="modal-header" style="background-color:cornflowerblue">
+                                            <h5 class="modal-title"><span style="color:white">Add User</span></h5>
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="modal-body">
+                                            <p>
 
-                                            <div class="form-group">
-                                                <label for="input-placeholder">Last Name</label>
-                                                <input type="text" class="form-control" placeholder="Last Name" id="input-lastname" th:value="*{lastname}">
+
+                                            <div class="col-md-12">
+
+                                                <div class="form-group">
+                                                    <label>First Name</label>
+                                                    <input type="text" class="form-control" placeholder="First Name"  th:value="*{firstName}" name="firstName"/>
+                                                </div>
+
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
+                                            <div class="col-md-12">
 
-                                            <div class="form-group">
-                                                <label for="input-placeholder">Email</label>
-                                                <input type="text" class="form-control" placeholder="Email" id="input-email" th:value="*{email}">
+                                                <div class="form-group">
+                                                    <label for="input-placeholder">Last Name</label>
+                                                    <input type="text" class="form-control" placeholder="Last Name" id="input-lastname" th:value="*{lastName}" name="lastName"/>
+                                                </div>
                                             </div>
+                                            <div class="col-md-12">
+
+                                                <div class="form-group">
+                                                    <label for="input-placeholder">Email</label>
+                                                    <input type="text" class="form-control" placeholder="Email" id="input-email" th:value="*{email}" name="email"/>
+                                                </div>
+                                            </div>
+
+
+                                            </p>
+
                                         </div>
-
-
-                                        </p>
-
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal">Close</button>
+                                            <!--<button type="button" class="btn btn-bold btn-pure btn-info save-button" onclick="user_creation()">Save</button>-->
+                                            <input type="submit" class="btn btn-bold btn-pure btn-info" value="Save"/>
+                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal">Close</button>
-                                        <!--<button type="button" class="btn btn-bold btn-pure btn-info save-button" onclick="user_creation()">Save</button>-->
-                                        <input type="submit" class="btn btn-bold btn-pure btn-info" value="Save"/>
-                                    </div>
-                                </div>
                                 </form>
 
 
@@ -375,57 +436,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>markotto@gmail.com</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>12-09-2018</td>
-                        <td class="text-right table-actions">
-                            <a class="table-action hover-primary" href="#"><i class="ti-pencil"></i></a>
-                            <a class="table-action hover-danger" href="#"><i class="ti-trash"></i></a>
-                            <div class="dropdown table-action">
-                                <span class="dropdown-toggle no-caret hover-primary" data-toggle="dropdown"><i class="ti-more-alt rotate-90"></i></span>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="ti-menu-alt"></i> Details</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob@gmail.com</td>
-                        <td>Thornton</td>
-                        <td>Jacob</td>
-                        <td>12-12-2012</td>
-                        <td class="text-right table-actions">
-                            <a class="table-action hover-primary" href="#"><i class="ti-pencil"></i></a>
-                            <a class="table-action hover-danger" href="#"><i class="ti-trash"></i></a>
-                            <div class="dropdown table-action">
-                                <span class="dropdown-toggle no-caret hover-primary" data-toggle="dropdown"><i class="ti-more-alt rotate-90"></i></span>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="ti-menu-alt"></i> Details</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry@hotmail.com</td>
-                        <td>the Bird</td>
-                        <td>Larry</td>
-                        <td>13-07-2018</td>
-                        <td class="text-right table-actions">
-                            <a class="table-action hover-primary" href="#"><i class="ti-pencil"></i></a>
-                            <a class="table-action hover-danger" href="#"><i class="ti-trash"></i></a>
-                            <div class="dropdown table-action">
-                                <span class="dropdown-toggle no-caret hover-primary" data-toggle="dropdown"><i class="ti-more-alt rotate-90"></i></span>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="ti-menu-alt"></i> Details</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -486,67 +497,15 @@
     });
 
 
-
-
-    var userArray = [];
     function user_creation() {
-alert("got here");
-
-
-        var postdata = {
-            firstname : $('#input-firstname').val(),
-            lastname : $('#input-lastname').val(),
-            email : $('#input-email').val()
-
-        }
-
-        var usrObj = JSON.stringify(postdata);
-        // userArray.push(usrObj);
-        // console.log(userArray);
-        localStorage.userRecord = JSON.stringify(usrObj);
-        console.log(localStorage.userRecord);
-
-
-        $.ajax({
-            url: '/add',
-            type: 'POST',
-            data: JSON.stringify(postdata),
-            contentType:'application/json',
-            success:function() {
-
-
-                    $('.tabili').append("<tr><td>4</td><td id='\emaill\'>" + postdata.email + "</td><td>" + postdata.firstname + "</td><td>" + postdata.lastname + "</td><td>20-08-2018</td><td class=\"text-right table-actions\">\n" +
-                        "                            <a class=\"table-action hover-primary\" href=\"#\"><i class=\"ti-pencil\"></i></a>\n" +
-                        "                            <a class=\"table-action hover-danger\" href=\"#\" id=\"delete\"><i class=\"ti-trash\"></i></a>\n" +
-                        "                            <div class=\"dropdown table-action\">\n" +
-                        "                                <span class=\"dropdown-toggle no-caret hover-primary\" data-toggle=\"dropdown\"><i class=\"ti-more-alt rotate-90\"></i></span>\n" +
-                        "                                <div class=\"dropdown-menu dropdown-menu-right\">\n" +
-                        "                                    <a class=\"dropdown-item\" href=\"#\"><i class=\"ti-menu-alt\"></i> Details</a>\n" +
-                        "                                </div>\n" +
-                        "                            </div>\n" +
-                        "                        </td></tr>");
-
-
-            },
-            error : function (data) {
-                console.log('error occured')
-                console.log(data)
-                bootbox.alert(data)
-            },
-            cache: false,
-            processData: false
-        });
-
-        alert('User created successfully');
 
         $("#modal-center .close").click();
 
     }
 
     $(".tabili").on('click','#delete', function(event) {
-            $(this).closest ('tr').remove ();
-        });
-
+        $(this).closest ('tr').remove ();
+    });
 
 
     //date
@@ -563,19 +522,66 @@ alert("got here");
     }
     var today = dd+'/'+mm+'/'+yyyy;
 
-    function appendValueToStorage(key, value) {
-        var values = JSON.parse(localStorage.getItem(key));
-        if (values === null) {
-            values = [];
-        }
 
-        values.push(value);
-        localStorage.setItem(key, JSON.stringify(values));
-        console.log(localStorage.getItem(key));
-        console.log(localStorage.length);
 
-    }
 
+
+
+    $(document).ready(function () {
+
+        //function to take data from each row
+        $(".tabili").on('click','.ti-pencil', function(event) {
+
+            var mailTxt = $(this).closest('tr').find('.mail').text();
+            var fnameTxt = $(this).closest('tr').find('.fstname').text();
+            var lnameTxt = $(this).closest('tr').find('.lstname').text();
+
+            //assign values to modal for editing user info
+            $("#emailadd").val( mailTxt );
+            $("#fname").val( fnameTxt );
+            $("#lname").val( lnameTxt );
+
+        });
+
+        //fetch all users
+        $.getJSON('/all', function (data) {
+
+
+
+
+            $('.tabili').append("<tbody>");
+
+
+            var number = 0;
+            for (var i = 0; i <JSON.stringify(data).length; i++) {
+
+                number++;
+
+
+                $('.tabili').append("<tr><td>" + number + "</td><td class='mail'>" + data[i].email + "</td><td class='fstname'>" + data[i].firstName + "</td><td class='lstname'>" + data[i].lastName + "</td><td>"+ today +"</td><td class=\"text-right table-actions\"> \n" +
+                    "                    <a class=\"table-action hover-primary\" href=\"#\" data-toggle=\"modal\" data-target=\"#modal-center-edit\"><i class=\"ti-pencil\"></i></a> \n" +
+                    "                    <a class=\"table-action hover-danger\" href=\"#\" id=\"delete\"><i class=\"ti-trash\"></i></a> \n" +
+                    "                    <div class=\"dropdown table-action\"> \n" +
+                    "                    <span class=\"dropdown-toggle no-caret hover-primary\" data-toggle=\"dropdown\"><i class=\"ti-more-alt rotate-90\"></i></span>\n"+
+                    "                    <div class=\"dropdown-menu dropdown-menu-right\"> \n" +
+                    "                    <a class=\"dropdown-item\" href=\"#\"><i class=\"ti-menu-alt\"></i> Details</a> \n" +
+                    "                    </div>\n" +
+                    "                    </div> \n" +
+                    "                    </td></tr>");
+            }
+            $('.tabili').append("</tbody>");
+            $('th').css("border", "1px solid green");
+
+
+
+
+
+        });
+
+
+
+
+    });
 
 
 

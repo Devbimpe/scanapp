@@ -1,6 +1,10 @@
 package com.scanapp.controllers;
 
+import com.scanapp.models.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -29,11 +33,4 @@ public class LoginController {
         return "dashboard/licence";
     }
 
-
-    //shouldn't be here but for the main time
-//    @PostMapping("/saveUser")
-//    public String saveUser(UserService user, Model model) {
-//        model.addAttribute("user", user);
-//        return "dashboard/users";
-//    }
 }
