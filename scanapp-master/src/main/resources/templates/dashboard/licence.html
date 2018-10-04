@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- <meta name="description" content="TheAdmin - Responsive Bootstrap 4 Admin, Dashboard &amp; WebApp Template">
+    <meta name="keywords" content="dashboard, index, main"> -->
+
+    <title>Erevna::HomePage</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i|Dosis:300,500" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="assets/css/core.min.css" rel="stylesheet">
+    <link href="assets/css/app.min.css" rel="stylesheet">
+    <link href="assets/css/style.min.css" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="icon" href="assets/img/favicon.png">
+
+    <!--  Open Graph Tags -->
+    <meta property="og:title" content="The Admin Template of 2018!">
+    <meta property="og:description" content="TheAdmin is a responsive, professional, and multipurpose admin template powered with Bootstrap 4.">
+    <meta property="og:image" content="http://thetheme.io/theadmin/assets/img/og-img.jpg">
+    <meta property="og:url" content="http://thetheme.io/theadmin/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="keywords" content="morris, chart, line, area, bar, pie">
+
+</head>
+
+<body class="sidebar-folded">
+
+<!-- Preloader -->
+<div class="preloader">
+    <div class="spinner-dots">
+        <span class="dot1"></span>
+        <span class="dot2"></span>
+        <span class="dot3"></span>
+    </div>
+</div>
+
+
+<!-- Sidebar -->
+<aside class="sidebar sidebar-icons-right sidebar-icons-boxed sidebar-expand-lg">
+    <header class="sidebar-header">
+        <a class="logo-icon" href="index.html">☰</a>
+        <span class="logo">
+          <a href="index.html">erevna</a>
+        </span>
+        <span class="sidebar-toggle-fold"></span>
+    </header>
+
+    <nav class="sidebar-navigation">
+        <ul class="menu">
+
+            <li class="menu-category"></li>
+
+            <li class="menu-item">
+                <a class="menu-link" href="index">
+                    <span class="icon fa fa-home"></span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a class="menu-link" href="#">
+                    <span class="icon fa fa-search"></span>
+                    <span class="title">Scan</span>
+                    <span class="arrow"></span>
+                    <!-- <span class="arrow"></span> -->
+                </a>
+
+                <ul class="menu-submenu">
+                    <li class="menu-item">
+                        <a class="menu-link" href="scan">
+                            <span class="dot"></span>
+                            <span class="title">Start Scan</span>
+                        </a>
+                    </li>
+                    <!-- <li class="menu-item">
+                      <a class="menu-link" href="samples/invoicer/index.html">
+                        <span class="dot"></span>
+                        <span class="title">Credentials</span>
+                      </a>
+                    </li>
+
+                    <li class="menu-item">
+                      <a class="menu-link" href="samples/job/index.html">
+                        <span class="dot"></span>
+                        <span class="title">Settings</span>
+
+                      </a>
+                    </li> -->
+
+
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a class="menu-link" href="users">
+                    <span class="icon fa fa-user"></span>
+                    <span class="title">User Management</span>
+                </a>
+
+            </li>
+            <li class="menu-item">
+
+                <a class="menu-link" href="licence">
+                    <span class="icon fa fa-book"></span>
+                    <span class="title">Apply License</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+</aside>
+
+<!---End of sidebar>
+
+    <!-- Topbar -->
+<header class="topbar">
+    <div class="topbar-left">
+        <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
+
+        <a class="topbar-btn d-none d-md-block" href="#" data-provide="fullscreen tooltip" title="Fullscreen">
+            <i class="material-icons fullscreen-default">fullscreen</i>
+            <i class="material-icons fullscreen-active">fullscreen_exit</i>
+        </a>
+
+        <div class="dropdown d-none d-md-block">
+            <span class="topbar-btn" data-toggle="dropdown"><i class="ti-layout-grid3-alt"></i></span>
+            <div class="dropdown-menu dropdown-grid">
+                <a class="dropdown-item" href="index">
+                    <span data-i8-icon="home"></span>
+                    <span class="title">Dashboard</span>
+                </a>
+                <a class="dropdown-item" href="scan">
+                    <span data-i8-icon="stack_of_photos"></span>
+                    <span class="title">New Scan</span>
+                </a>
+                <a class="dropdown-item" href="settings">
+                    <span data-i8-icon="search"></span>
+                    <span class="title">Settings</span>
+                </a>
+                <a class="dropdown-item" href="users">
+                    <span data-i8-icon="calendar"></span>
+                    <span class="title">Users</span>
+                </a>
+                <a class="dropdown-item" href="report">
+                    <span data-i8-icon="sms"></span>
+                    <span class="title">Report</span>
+                </a>
+                <a class="dropdown-item" href="licence">
+                    <span data-i8-icon="sms"></span>
+                    <span class="title">License</span>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="topbar-divider d-none d-md-block"></div>
+
+        <div class="lookup d-none d-md-block topbar-search" id="theadmin-search">
+            <input class="form-control w-300px" type="text">
+            <div class="lookup-placeholder">
+                <i class="ti-search"></i>
+                <span data-provide="typing" data-type="&lt;strong&gt;Type&lt;/strong&gt; Button|&lt;strong&gt;Type&lt;/strong&gt; Slider|&lt;strong&gt;Type&lt;/strong&gt; Layout|&lt;strong&gt;Type&lt;/strong&gt; Modal|&lt;strong&gt;Try&lt;/strong&gt; typing any keyword..." data-loop="false" data-type-speed="90" data-back-speed="50" data-show-cursor="false"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="topbar-right">
+        <a class="topbar-btn" href="#qv-global" data-toggle="quickview"><i class="ti-align-right"></i></a>
+
+        <div class="topbar-divider"></div>
+
+        <ul class="topbar-btns">
+            <li class="dropdown">
+                <span class="topbar-btn" data-toggle="dropdown"><img class="avatar" src="assets/img/avatar/1.jpg" alt="..."></span>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="page/profile.html"><i class="ti-user"></i> Profile</a>
+
+                    <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="page-extra/user-lock-1.html"><i class="ti-lock"></i> Forgot Password</a>
+                    <a class="dropdown-item" href="page-extra/user-login-3.html"><i class="ti-power-off"></i> Logout</a>
+                </div>
+            </li>
+
+            <!-- Notifications -->
+            <li class="dropdown d-none d-md-block">
+                <span class="topbar-btn has-new" data-toggle="dropdown"><i class="ti-bell"></i></span>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <div class="media-list media-list-hover media-list-divided media-list-xs">
+
+                    </div>
+
+                    <div class="dropdown-footer">
+                        <div class="left">
+                            <a href="#">All notifications</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </li>
+            <!-- END Notifications -->
+
+            <!-- Messages -->
+            <li class="dropdown d-none d-md-block">
+                <span class="topbar-btn" data-toggle="dropdown"></span>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <div class="media-list media-list-divided media-list-hover media-list-xs scrollable" style="height: 290px">
+                        <a class="media media-new1" href="page-app/mailbox-single.html">
+                    <span class="avatar status-success">
+                      <img src="assets/img/avatar/1.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Maryam Amiri</strong> <time class="float-right" datetime="2017-07-14 20:00">23 min ago</time></p>
+                                <p class="text-truncate">Authoritatively exploit resource maximizing technologies before technically.</p>
+                            </div>
+                        </a>
+
+                        <a class="media media-new1" href="page-app/mailbox-single.html">
+                    <span class="avatar status-warning">
+                      <img src="assets/img/avatar/2.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Hossein Shams</strong> <time class="float-right" datetime="2017-07-14 20:00">48 min ago</time></p>
+                                <p class="text-truncate">Continually plagiarize efficient interfaces after bricks-and-clicks niches.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                    <span class="avatar status-dark">
+                      <img src="assets/img/avatar/3.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Helen Bennett</strong> <time class="float-right" datetime="2017-07-14 20:00">3 hours ago</time></p>
+                                <p class="text-truncate">Objectively underwhelm cross-unit web-readiness before sticky outsourcing.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                            <span class="avatar status-success bg-purple">FT</span>
+
+                            <div class="media-body">
+                                <p><strong>Fidel Tonn</strong> <time class="float-right" datetime="2017-07-14 20:00">21 hours ago</time></p>
+                                <p class="text-truncate">Interactively innovate transparent relationships with holistic infrastructures.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                    <span class="avatar status-danger">
+                      <img src="assets/img/avatar/4.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Freddie Arends</strong> <time class="float-right" datetime="2017-07-14 20:00">Yesterday</time></p>
+                                <p class="text-truncate">Collaboratively visualize corporate initiatives for web-enabled value.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                    <span class="avatar status-success">
+                      <img src="assets/img/avatar/5.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Freddie Arends</strong> <time class="float-right" datetime="2017-07-14 20:00">Yesterday</time></p>
+                                <p class="text-truncate">Interactively reinvent standards compliant supply chains through next-generation bandwidth.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="dropdown-footer">
+                        <div class="left">
+                            <a href="#">Read all messages</a>
+                        </div>
+
+                        <div class="right">
+                            <a href="#" data-provide="tooltip" title="Mark all as read"><i class="fa fa-circle-o"></i></a>
+                            <a href="#" data-provide="tooltip" title="Settings"><i class="fa fa-gear"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <!-- END Messages -->
+
+        </ul>
+
+    </div>
+</header>
+<!-- END Topbar -->
+
+<main>
+    <div class="main-content">
+        <div class="row">
+
+
+
+
+
+
+
+
+
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <h4>Machine ID:</h4>
+                    <span><h4>345FD</h4></span>
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Type License">
+                    <span class="input-group-btn">
+                      <button class="btn btn-info" type="button">Apply</button>
+                    </span>
+                </div>
+            </div>
+
+</main>
+
+
+
+
+
+<!-- Scripts -->
+<script src="assets/js/core.min.js"></script>
+<script src="assets/js/app.min.js"></script>
+<script src="assets/js/script.min.js"></script>
+
+<script>
+    app.ready(function(){
+
+
+        // Bar chart
+        //
+        Morris.Bar({
+            element: 'morris-bar',
+            data: [
+                { y: 'January', a: 40, b: 100, c: 100 },
+                { y: 'February', a: 75,  b: 65, c: 40 },
+                { y: 'March', a: 50,  b: 40, c: 30 },
+                { y: 'April', a: 75,  b: 65, c: 40 },
+                { y: 'May', a: 50,  b: 40, c: 30 },
+                { y: 'June', a: 75,  b: 65, c: 40 },
+                { y: 'July', a: 100, b: 90, c: 40 },
+                { y: 'August', a: 100, b: 90, c: 60 },
+                { y: 'September', a: 75,  b: 65, c: 10 },
+                { y: 'October', a: 50,  b: 40, c: 10 },
+                { y: 'November', a: 75,  b: 65, c: 40 },
+                { y: 'Devember', a: 50,  b: 40, c: 30 },
+
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b', 'c'],
+            labels: ['Total Scans', 'Total Files Scanned', 'Total Chd Found'],
+            barColors:['cornflowerblue', 'lightskyblue', 'cornflowerblue'],
+            hideHover: 'auto',
+            gridLineColor: '#eef0f2',
+            resize: true
+        });
+
+
+
+
+
+
+
+
+    });
+
+
+
+</script>
+
+
+</body>
+</html>

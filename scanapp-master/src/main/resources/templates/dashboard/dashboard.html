@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- <meta name="description" content="TheAdmin - Responsive Bootstrap 4 Admin, Dashboard &amp; WebApp Template">
+    <meta name="keywords" content="dashboard, index, main"> -->
+
+    <title>Erevna::HomePage</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i|Dosis:300,500" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" th:href="@{assets/css/core.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{assets/css/app.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{assets/css/style.min.css}"/>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" th:href= "@{assets/img/apple-touch-icon.png}"/>
+    <link rel="icon" th:href="@{assets/img/favicon.png}"/>
+
+    <!--  Open Graph Tags -->
+    <meta property="og:title" content="The Admin Template of 2018!">
+    <meta property="og:description" content="TheAdmin is a responsive, professional, and multipurpose admin template powered with Bootstrap 4.">
+    <meta property="og:image" content="http://thetheme.io/theadmin/assets/img/og-img.jpg">
+    <meta property="og:url" content="http://thetheme.io/theadmin/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="keywords" content="morris, chart, line, area, bar, pie">
+
+</head>
+
+<body class="sidebar-folded">
+
+<!-- Preloader -->
+<div class="preloader">
+    <div class="spinner-dots">
+        <span class="dot1"></span>
+        <span class="dot2"></span>
+        <span class="dot3"></span>
+    </div>
+</div>
+
+
+<!-- Sidebar -->
+<aside class="sidebar sidebar-icons-right sidebar-icons-boxed sidebar-expand-lg">
+    <header class="sidebar-header">
+        <a class="logo-icon" href="index.html">☰</a>
+        <span class="logo">
+          <a href="index.html">erevna</a>
+        </span>
+        <span class="sidebar-toggle-fold"></span>
+    </header>
+
+    <nav class="sidebar-navigation">
+        <ul class="menu">
+
+            <li class="menu-category"></li>
+
+            <li class="menu-item">
+                <a class="menu-link" href="index">
+                    <span class="icon fa fa-home"></span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a class="menu-link" href="#">
+                    <span class="icon fa fa-search"></span>
+                    <span class="title">Scan</span>
+                    <span class="arrow"></span>
+                    <!-- <span class="arrow"></span> -->
+                </a>
+
+                <ul class="menu-submenu">
+                    <li class="menu-item">
+                        <a class="menu-link" href="scan">
+                            <span class="dot"></span>
+                            <span class="title">Start Scan</span>
+                        </a>
+                    </li>
+                    <!-- <li class="menu-item">
+                      <a class="menu-link" href="samples/invoicer/index.html">
+                        <span class="dot"></span>
+                        <span class="title">Credentials</span>
+                      </a>
+                    </li>
+
+                    <li class="menu-item">
+                      <a class="menu-link" href="samples/job/index.html">
+                        <span class="dot"></span>
+                        <span class="title">Settings</span>
+
+                      </a>
+                    </li> -->
+
+
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a class="menu-link" href="users">
+                    <span class="icon fa fa-user"></span>
+                    <span class="title">User Management</span>
+                </a>
+
+            </li>
+            <li class="menu-item">
+
+                <a class="menu-link" href="licence">
+                    <span class="icon fa fa-book"></span>
+                    <span class="title">Apply License</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+</aside>
+
+<!---End of sidebar>
+
+    <!-- Topbar -->
+<header class="topbar">
+    <div class="topbar-left">
+        <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
+
+        <a class="topbar-btn d-none d-md-block" href="#" data-provide="fullscreen tooltip" title="Fullscreen">
+            <i class="material-icons fullscreen-default">fullscreen</i>
+            <i class="material-icons fullscreen-active">fullscreen_exit</i>
+        </a>
+
+        <div class="dropdown d-none d-md-block">
+            <span class="topbar-btn" data-toggle="dropdown"><i class="ti-layout-grid3-alt"></i></span>
+            <div class="dropdown-menu dropdown-grid">
+                <a class="dropdown-item" href="index">
+                    <span data-i8-icon="home"></span>
+                    <span class="title">Dashboard</span>
+                </a>
+                <a class="dropdown-item" href="scan">
+                    <span data-i8-icon="stack_of_photos"></span>
+                    <span class="title">New Scan</span>
+                </a>
+                <a class="dropdown-item" href="settings">
+                    <span data-i8-icon="search"></span>
+                    <span class="title">Settings</span>
+                </a>
+                <a class="dropdown-item" href="users">
+                    <span data-i8-icon="calendar"></span>
+                    <span class="title">Users</span>
+                </a>
+                <a class="dropdown-item" href="report">
+                    <span data-i8-icon="sms"></span>
+                    <span class="title">Report</span>
+                </a>
+                <a class="dropdown-item" href="licence">
+                    <span data-i8-icon="sms"></span>
+                    <span class="title">License</span>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="topbar-divider d-none d-md-block"></div>
+
+        <div>
+
+            <div>
+                <div class="col-md-6">
+
+
+
+                    <!--
+                  |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+                  | Split button dropdowns
+                  |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+                  !-->
+
+
+
+                        <div class="btn-group">
+                            <button class="btn btn-grey">Dashboard</button>
+                            <button class="btn btn-gray dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Network Dashboard</a>
+                                <a class="dropdown-item" href="#">AD Dashboard</a>
+                                <a class="dropdown-item" href="#">IP Dashboard</a>
+                                <!--<div class="dropdown-divider"></div>-->
+                                <!--<a class="dropdown-item" href="#">Separated link</a>-->
+                            </div>
+                        </div>
+
+                        <!--<i class="ti-search"></i>-->
+                <!--<span data-provide="typing" data-type="&lt;strong&gt;Type&lt;/strong&gt; Button|&lt;strong&gt;Type&lt;/strong&gt; Slider|&lt;strong&gt;Type&lt;/strong&gt; Layout|&lt;strong&gt;Type&lt;/strong&gt; Modal|&lt;strong&gt;Try&lt;/strong&gt; typing any keyword..." data-loop="false" data-type-speed="90" data-back-speed="50" data-show-cursor="false"></span>-->
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="topbar-right">
+        <a class="topbar-btn" href="#qv-global" data-toggle="quickview"><i class="ti-align-right"></i></a>
+
+        <div class="topbar-divider"></div>
+
+        <ul class="topbar-btns">
+            <li class="dropdown">
+                <span class="topbar-btn" data-toggle="dropdown"><img class="avatar" src="assets/img/avatar/1.jpg" alt="..."></span>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="page/profile.html"><i class="ti-user"></i> Profile</a>
+
+                    <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="page-extra/user-lock-1.html"><i class="ti-lock"></i> Forgot Password</a>
+                    <a class="dropdown-item" href="page-extra/user-login-3.html"><i class="ti-power-off"></i> Logout</a>
+                </div>
+            </li>
+
+            <!-- Notifications -->
+            <li class="dropdown d-none d-md-block">
+                <span class="topbar-btn has-new" data-toggle="dropdown"><i class="ti-bell"></i></span>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <div class="media-list media-list-hover media-list-divided media-list-xs">
+
+                    </div>
+
+                    <div class="dropdown-footer">
+                        <div class="left">
+                            <a href="#">All notifications</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </li>
+            <!-- END Notifications -->
+
+            <!-- Messages -->
+            <li class="dropdown d-none d-md-block">
+                <span class="topbar-btn" data-toggle="dropdown"></span>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <div class="media-list media-list-divided media-list-hover media-list-xs scrollable" style="height: 290px">
+                        <a class="media media-new1" href="page-app/mailbox-single.html">
+                    <span class="avatar status-success">
+                      <img src="assets/img/avatar/1.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Maryam Amiri</strong> <time class="float-right" datetime="2017-07-14 20:00">23 min ago</time></p>
+                                <p class="text-truncate">Authoritatively exploit resource maximizing technologies before technically.</p>
+                            </div>
+                        </a>
+
+                        <a class="media media-new1" href="page-app/mailbox-single.html">
+                    <span class="avatar status-warning">
+                      <img src="assets/img/avatar/2.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Hossein Shams</strong> <time class="float-right" datetime="2017-07-14 20:00">48 min ago</time></p>
+                                <p class="text-truncate">Continually plagiarize efficient interfaces after bricks-and-clicks niches.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                    <span class="avatar status-dark">
+                      <img src="assets/img/avatar/3.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Helen Bennett</strong> <time class="float-right" datetime="2017-07-14 20:00">3 hours ago</time></p>
+                                <p class="text-truncate">Objectively underwhelm cross-unit web-readiness before sticky outsourcing.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                            <span class="avatar status-success bg-purple">FT</span>
+
+                            <div class="media-body">
+                                <p><strong>Fidel Tonn</strong> <time class="float-right" datetime="2017-07-14 20:00">21 hours ago</time></p>
+                                <p class="text-truncate">Interactively innovate transparent relationships with holistic infrastructures.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                    <span class="avatar status-danger">
+                      <img src="assets/img/avatar/4.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Freddie Arends</strong> <time class="float-right" datetime="2017-07-14 20:00">Yesterday</time></p>
+                                <p class="text-truncate">Collaboratively visualize corporate initiatives for web-enabled value.</p>
+                            </div>
+                        </a>
+
+                        <a class="media" href="page-app/mailbox-single.html">
+                    <span class="avatar status-success">
+                      <img src="assets/img/avatar/5.jpg" alt="...">
+                    </span>
+
+                            <div class="media-body">
+                                <p><strong>Freddie Arends</strong> <time class="float-right" datetime="2017-07-14 20:00">Yesterday</time></p>
+                                <p class="text-truncate">Interactively reinvent standards compliant supply chains through next-generation bandwidth.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="dropdown-footer">
+                        <div class="left">
+                            <a href="#">Read all messages</a>
+                        </div>
+
+                        <div class="right">
+                            <a href="#" data-provide="tooltip" title="Mark all as read"><i class="fa fa-circle-o"></i></a>
+                            <a href="#" data-provide="tooltip" title="Settings"><i class="fa fa-gear"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <!-- END Messages -->
+
+        </ul>
+
+    </div>
+</header>
+<!-- END Topbar -->
+
+<main>
+    <div class="main-content">
+        <div class="row">
+
+
+
+
+
+
+
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-body">
+                    <h6>
+                        <span class="text-uppercase">Scans</span>
+                        <span class="float-right"><a class="btn btn-xs" href="#">View Details</a></span>
+                    </h6>
+                    <br>
+                    <p class="fs-15 fw-10">Network Scans: 50</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br/>
+                    <p class="fs-15 fw-10">Active Directory Scans: 5</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br/>
+                    <p class="fs-15 fw-10">System Scans: 25</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-cyan" role="progressbar" style="width: 35%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-body">
+                    <h6>
+                        <span class="text-uppercase">Files</span>
+                        <span class="float-right"><a class="btn btn-xs" href="#">View Details</a></span>
+                    </h6>
+                    <br>
+                    <p class="fs-15 fw-10">.Pdf: 25</p>
+                    <div class="progress">
+                        <div class="progress-bar2" role="progressbar" style="width: 5%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br/>
+                    <p class="fs-15 fw-10">.Doc: 75</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 65%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br/>
+                    <p class="fs-15 fw-10">.Txt: 30</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-cyan" role="progressbar" style="width: 30%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br/>
+                    <p class="fs-15 fw-10">.Xls: 50</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-brown" role="progressbar" style="width: 50%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-body">
+                    <h6>
+                        <span class="text-uppercase">Chd</span>
+                        <span class="float-right"><a class="btn btn-xs" href="#">View Details</a></span>
+                    </h6>
+                    <br/>
+                    <p class="fs-15 fw-10">Visa: 1</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-brown" role="progressbar" style="width: 10%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br>
+                    <p class="fs-15 fw-10">Master: 10</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 45%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br>
+                    <p class="fs-15 fw-10">American Express: 70</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 65%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <br>
+                    <p class="fs-15 fw-10">Maestro: 0</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-pale-warning" role="progressbar" style="width: 2%; height: 4px;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-12">
+                <div class="card">
+                    <h4 class="card-title"><strong>Total</strong> Scans</h4>
+
+                    <div class="card-body">
+                        <ul class="list-inline text-right gap-items-4 mb-30">
+                            <li class="list-inline-item">
+                                <span class="badge badge-dot mr-1" style="background-color: #9966ff"></span>
+                                <span>No of Files Scanned</span>
+                            </li>
+                            <li class="list-inline-item">
+                                <span class="badge badge-dot mr-1" style="background-color: #4bc0c0"></span>
+                                <span>Total Scans</span>
+                            </li>
+                            <li class="list-inline-item">
+                                <span class="badge badge-dot mr-1" style="background-color: #ff9f40"></span>
+                                <span>No of Cards Found</span>
+                            </li>
+                        </ul>
+                        <canvas id="chartjs-cat" height="120" data-provide="chartjs"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</main>
+
+
+
+
+
+<!-- Scripts -->
+<script src="assets/js/core.min.js"></script>
+<script src="assets/js/app.min.js"></script>
+<script src="assets/js/script.min.js"></script>
+
+<script>
+    app.ready(function(){
+
+
+        // Chart
+        //
+
+        if ( window["Chart"] !== undefined ) {
+            var chartjs_cat = new Chart($("#chartjs-cat"), {
+                type: 'line',
+                data: {
+                    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    datasets: [
+                        {
+                            label: "No of Files Scanned",
+                            fill: false,
+                            borderWidth: 3,
+                            borderColor: "#9966ff",
+                            pointBackgroundColor: "#9966ff",
+                            pointBorderColor: "#9966ff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "#9966ff",
+                            data: [9, 12, 11, 14, 22, 18, 20, 15, 5]
+                        },
+                        {
+                            label: "Total Scans",
+                            fill: false,
+                            borderWidth: 3,
+                            borderColor: "#4bc0c0",
+                            pointBackgroundColor: "#4bc0c0",
+                            pointBorderColor: "#4bc0c0",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "#4bc0c0",
+                            data: [6, 10, 10, 17, 20, 16, 11, 14, 22]
+                        },
+                        {
+                            label: "No of Cards Found",
+                            fill: false,
+                            borderWidth: 3,
+                            borderColor: "#ff9f40",
+                            pointBackgroundColor: "#ff9f40",
+                            pointBorderColor: "#ff9f40",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "#ff9f40",
+                            data: [5, 9, 12, 13, 17, 20, 16, 11, 14]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                }
+            });
+        }
+
+
+
+
+
+
+
+    });
+
+
+    function load_user(){
+        document.getElementById("content").innerHTML='<object type="text/html" data="tables.html" ></object>';
+    }
+
+</script>
+
+
+</body>
+</html>
