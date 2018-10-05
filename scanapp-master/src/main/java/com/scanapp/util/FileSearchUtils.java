@@ -1,9 +1,6 @@
 package com.scanapp.util;
 
 
-import com.scanapp.controllers.ScanController;
-import com.scanapp.repositories.ScanRepository;
-import com.scanapp.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.tika.exception.TikaException;
@@ -12,8 +9,6 @@ import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.util.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -28,29 +23,26 @@ import java.util.stream.Collectors;
 
 
 @Slf4j
-
 public class FileSearchUtils implements Serializable {
 
-    private File recordFile = new File("/Users/SilverFox/Documents/testLog" + new SimpleDateFormat("ddMMyy").format(new Date()) + ".log");
+    private File recordFile ;
 
-
-
+    public void setRecordFilePath(String recordFilePath) {
+        this.recordFile = new File(recordFilePath+"testLog" + new SimpleDateFormat("ddMMyy").format(new Date()) + ".log") ;
+    }
 
     private String commaSeparatedListOfExtensions;
 
     public FileSearchUtils(String commaSeparatedListOfExtensions) {
         this.commaSeparatedListOfExtensions = commaSeparatedListOfExtensions;
     }
-
     public FileSearchUtils() {
         String file;
     }
 
-
     /**
      * @return root directory file path
      */
-
     public static String rootDirectory() {
         return File.listRoots()[0].getAbsolutePath();
     }
@@ -74,7 +66,7 @@ public class FileSearchUtils implements Serializable {
         try {
             if (file.isDirectory()) {
 
-                 System.out.println("Searching directory ... " + file.getAbsoluteFile());
+                // System.out.println("Searching directory ... " + file.getAbsoluteFile());
 
                 //do you have permission to read this directory?
                 // is the file empty or a recycled bin
@@ -91,7 +83,7 @@ public class FileSearchUtils implements Serializable {
                                 continue;
                             }
                         } catch (Exception e) {
-                            System.out.println(e.getLocalizedMessage()+ e);
+                            //log.error(e.getLocalizedMessage(), e);
                         }
 
                         if (temp.isDirectory()) {
@@ -122,14 +114,14 @@ public class FileSearchUtils implements Serializable {
             }
 
         } catch (Exception e) {
-            System.out.println("exception occurred while reading file " + e.getLocalizedMessage()+ e);
+            //log.error("exception occurred while reading file " + e.getLocalizedMessage(), e);
         }
 
 
     }
 
 
-    public boolean accept(File file) {
+    private boolean accept(File file) {
         if (Files.isReadable(file.toPath())) {
             String fileName = file.getAbsolutePath();
             Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
@@ -140,7 +132,7 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-    public boolean accept(String fileName) {
+    private boolean accept(String fileName) {
         Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
         return fileExtensionList.stream().anyMatch(fileName::endsWith);
 
@@ -156,16 +148,8 @@ public class FileSearchUtils implements Serializable {
 
 
 
-    public static FileSearchUtils main(String... args) throws IOException {
 
-        FileSearchUtils fileSearchUtils = new FileSearchUtils(".txt");
-      // FileSearchUtils fileSearchUtils = new FileSearchUtils(pref);
-        fileSearchUtils.listFoundFiles();
-
-        return fileSearchUtils;
-    }
-
-    public static String extractContentUsingParser(InputStream stream)
+    private static String extractContentUsingParser(InputStream stream)
             throws IOException, TikaException, SAXException {
 
         Parser parser = new AutoDetectParser();
@@ -177,7 +161,7 @@ public class FileSearchUtils implements Serializable {
         return handler.toString();
     }
 
-    public Set<String> getCreditCardsFromFile(String fileName) {
+    private Set<String> getCreditCardsFromFile(String fileName) {
         Set<String> creditCardsList = new HashSet<>();
         FileInputStream fileInputStream = null;
         try {
@@ -201,15 +185,7 @@ public class FileSearchUtils implements Serializable {
 
                                 if (CreditCardUtils.isCreditCardNumber(i)) {
                                     System.out.println(String.format("%s is a credit card", i));
-
                                     creditCardsList.add(i);
-                                    JSONObject json = new JSONObject();
-                                    try {
-                                        json.put("Scans", i);
-                                        System.out.println("results are " + json);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
                                 }
 
                             }
@@ -242,10 +218,23 @@ public class FileSearchUtils implements Serializable {
     }
 
 
-
+    /**
+     * public void writeToFile(List<String> results, String filename) throws IOException {
+     * File outFile = new File("tofile" + generateNum());
+     * FileWriter fWriter = new FileWriter(outFile);
+     * PrintWriter pWriter = new PrintWriter(fWriter);
+     * pWriter.println(filename);
+     * for (String result : results) {
+     * pWriter.println(result);
+     * }
+     * <p>
+     * pWriter.close();
+     * }
+     **/
     private String generateNum() {
 
         Random r = new Random(System.currentTimeMillis());
+
         int random = 1000000000 + r.nextInt(9999999);
         return Integer.toString(random);
     }
@@ -266,26 +255,10 @@ public class FileSearchUtils implements Serializable {
 
 
         } catch (Exception e) {
-            System.out.println("error occurred while writing to file " + e.getLocalizedMessage()+  e);
+            //log.error("error occurred while writing to file " + e.getLocalizedMessage(), e);
 
         }
 
-    }
-    public String getAllFiles(List<String> creditCards, String fileName){
-        try {
-
-            creditCards
-                    .stream()
-                    .forEach(creditCard -> {
-                        System.out.println(creditCards);
-                    });
-
-
-        } catch (Exception e) {
-            System.out.println("error occurred while writing to file " + e.getLocalizedMessage()+  e);
-
-        }
-        return fileName;
     }
 
 }
