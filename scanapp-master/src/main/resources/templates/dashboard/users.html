@@ -388,7 +388,7 @@
                                             <div class="col-md-12">
 
                                                 <div class="form-group">
-                                                    <label>First Name</label>
+                                                    <label class="require">First Name</label>
                                                     <input type="text" class="form-control" placeholder="First Name"  th:value="*{firstName}" name="firstName" required/>
                                                 </div>
 
@@ -396,23 +396,41 @@
                                             <div class="col-md-12">
 
                                                 <div class="form-group">
-                                                    <label for="input-placeholder">Last Name</label>
+                                                    <label for="input-placeholder" class="require">Last Name</label>
                                                     <input type="text" class="form-control" placeholder="Last Name" id="input-lastname" th:value="*{lastName}" name="lastName" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
 
                                                 <div class="form-group">
-                                                    <label for="input-placeholder">Email</label>
+                                                    <label for="input-placeholder" class="require">Email</label>
                                                     <input type="text" class="form-control" placeholder="Email" id="input-email" th:value="*{email}" name="email" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
 
                                                 <div class="form-group">
-                                                    <label for="input-placeholder">Password</label>
-                                                    <input type="text" class="form-control" placeholder="Password" id="input-password" th:value="*{password}" name="password" required/>
+                                                    <label for="input-placeholder" class="require">Password</label>
+                                                    <input type="password" class="form-control" placeholder="Password" id="input-password" th:value="*{password}" name="password" required/>
                                                 </div>
+
+
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                <div class="form-group">
+                                                    <label for="input-placeholder" class="require">Role</label>
+                                                    <br>
+                                                    <select class="form-control" name="role">
+                                                        <option value="">Select</option>
+                                                        <option th:if="" id="input-admin" th:value="*{admin}" value="admin">Admin</option>
+                                                        <option th:if="" id="input-staff" th:value="*{staff}" value="staff">Staff</option>
+                                                    </select>
+
+                                                </div>
+
+
+
                                             </div>
 
 
@@ -444,6 +462,7 @@
 
                         <th>Last Name</th>
                         <th>Created Date</th>
+                        <th>Role</th>
                         <th class="text-center w-100px">Actions</th>
                     </tr>
                     </thead>
@@ -579,7 +598,7 @@
                 for (var i = 0; i <JSON.stringify(data).length; i++) {
 
                 number++;
-                $('.tabili').append("<tr><td>" + number + "</td><td class='mail'>" + data[i].email + "</td><td class='fstname'>" + data[i].firstName + "</td><td class='lstname'>" + data[i].lastName + "</td><td>"+ today +"</td><td class=\"text-right table-actions\"> \n" +
+                $('.tabili').append("<tr><td>" + number + "</td><td class='mail'>" + data[i].email + "</td><td class='fstname'>" + data[i].firstName + "</td><td class='lstname'>" + data[i].lastName + "</td><td>"+ today +"</td><td>Admin</td><td class=\"text-right table-actions\"> \n" +
                     "                    <a class=\"table-action hover-primary\" href=\"#\" data-toggle=\"modal\" data-target=\"#modal-center-edit\"><i class=\"ti-pencil\"></i></a> \n" +
                     "                    <a class=\"table-action hover-danger\" href=\"#\" id=\"delete\"><i class=\"ti-trash\"></i></a> \n" +
                     "                    <div class=\"dropdown table-action\"> \n" +

@@ -44,7 +44,8 @@ public class UserController {
     public String addUser(@RequestParam("firstName") String firstName,
                           @RequestParam("lastName") String lastName,
                           @RequestParam("email") String email ,
-                          @RequestParam("password") String password, Model model) {
+                          @RequestParam("password") String password,
+                          @RequestParam("role") String role, Model model) {
         System.out.println(firstName);
         User user = new User();
         if (emailExist(email)) {
@@ -55,6 +56,7 @@ public class UserController {
             user.setLastName(lastName);
             user.setEmail(email);
             user.setPassword(passwordEncoder.encode(password));
+            user.setRole(role);
             userRepository.save(user);
 
 

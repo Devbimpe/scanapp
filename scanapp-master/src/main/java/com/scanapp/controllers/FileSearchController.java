@@ -21,7 +21,7 @@ public class FileSearchController extends FileSearchUtils {
     public String scanResult(@PathVariable("preference") String preference) throws IOException {
         System.out.println(preference);
         FileSearchUtils result = new FileSearchUtils();
-        System.out.println("what is showing " + result.main().getCreditCardsFromFile(rootDirectory()));
+       // System.out.println("what is showing " + result.main().getCreditCardsFromFile(rootDirectory()));
         return "dashboard/scan";
 
     }
