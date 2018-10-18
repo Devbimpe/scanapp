@@ -179,13 +179,12 @@
         <ul class="topbar-btns">
             <li class="dropdown">
                 <span class="topbar-btn" data-toggle="dropdown"><img class="avatar" src="assets/img/avatar/1.jpg" alt="..."></span>
+                <span  th:if="${username}" th:text="${username}"></span>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="page/profile.html"><i class="ti-user"></i> Profile</a>
 
                     <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="page-extra/user-lock-1.html"><i class="ti-lock"></i> Forgot Password</a>
-                    <a class="dropdown-item" href="page-extra/user-login-3.html"><i class="ti-power-off"></i> Logout</a>
+                    <a class="dropdown-item" href="/logout"><i class="ti-power-off"></i> Logout</a>
                 </div>
             </li>
 

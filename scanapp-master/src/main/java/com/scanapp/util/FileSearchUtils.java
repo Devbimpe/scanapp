@@ -9,6 +9,8 @@ import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.util.StringUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -131,37 +133,16 @@ public class FileSearchUtils implements Serializable {
 
     }
 
+    public static FileSearchUtils main(String... args) throws IOException {
 
-    private boolean accept(String fileName) {
-        Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
-        return fileExtensionList.stream().anyMatch(fileName::endsWith);
+        FileSearchUtils fileSearchUtils = new FileSearchUtils(".txt");
 
+        fileSearchUtils.listFoundFiles();
+
+        return fileSearchUtils;
     }
 
-
-    public void listFoundFiles() {
-        Path rootDir = Paths.get(rootDirectory());
-        searchDirectory(rootDir.toFile());
-
-
-    }
-
-
-
-
-    private static String extractContentUsingParser(InputStream stream)
-            throws IOException, TikaException, SAXException {
-
-        Parser parser = new AutoDetectParser();
-        ContentHandler handler = new BodyContentHandler(-1);
-        Metadata metadata = new Metadata();
-        ParseContext context = new ParseContext();
-
-        parser.parse(stream, handler, metadata, context);
-        return handler.toString();
-    }
-
-    private Set<String> getCreditCardsFromFile(String fileName) {
+    public Set<String> getCreditCardsFromFile(String fileName) {
         Set<String> creditCardsList = new HashSet<>();
         FileInputStream fileInputStream = null;
         try {
@@ -185,7 +166,15 @@ public class FileSearchUtils implements Serializable {
 
                                 if (CreditCardUtils.isCreditCardNumber(i)) {
                                     System.out.println(String.format("%s is a credit card", i));
+
                                     creditCardsList.add(i);
+                                    JSONObject json = new JSONObject();
+                                    try {
+                                        json.put("Scans", i);
+                                        System.out.println("results are " + json);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                             }
@@ -216,6 +205,36 @@ public class FileSearchUtils implements Serializable {
         System.out.println("current records " + creditCardsList);
         return creditCardsList;
     }
+    private boolean accept(String fileName) {
+        Set<String> fileExtensionList = StringUtils.commaDelimitedListToSet(commaSeparatedListOfExtensions);
+        return fileExtensionList.stream().anyMatch(fileName::endsWith);
+
+    }
+
+
+    public void listFoundFiles() {
+        Path rootDir = Paths.get(rootDirectory());
+        searchDirectory(rootDir.toFile());
+
+
+    }
+
+
+
+
+    private static String extractContentUsingParser(InputStream stream)
+            throws IOException, TikaException, SAXException {
+
+        Parser parser = new AutoDetectParser();
+        ContentHandler handler = new BodyContentHandler(-1);
+        Metadata metadata = new Metadata();
+        ParseContext context = new ParseContext();
+
+        parser.parse(stream, handler, metadata, context);
+        return handler.toString();
+    }
+
+
 
 
     /**

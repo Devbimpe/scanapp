@@ -188,16 +188,16 @@
                     <span class="topbar-btn" data-toggle="dropdown">
                         <img class="avatar" src="assets/img/avatar/1.jpg" alt="...">
                     </span>
+                <span  th:if="${username}" th:text="${username}"></span>
+
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="page/profile.html">
-                        <i class="ti-user"></i> Profile</a>
+
 
                     <a class="dropdown-item" href="#">
                         <i class="ti-settings"></i> Settings</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="page-extra/user-lock-1.html">
-                        <i class="ti-lock"></i> Forgot Password</a>
-                    <a class="dropdown-item" href="page-extra/user-login-3.html">
+
+                    <a class="dropdown-item" href="/logout">
                         <i class="ti-power-off"></i> Logout</a>
                 </div>
             </li>
@@ -538,7 +538,7 @@
 
         </div>
            </div>
-          </form>
+          </form><div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}" id="msg"/>
     </div>
 
 
@@ -716,7 +716,7 @@
             number++;
             $('.tabili').append("<tr><td class='scname'>" + data[i].nameOfScan + "</td><td class=''>" + data[i].dateCreated + "</td><td class=''>" + data[i].createdBy + "</td><td class=''>" + data[i].preferences + " <form:hidden path = \"preference\" value =  "+data[i].preferences +"/></td>\n" +
                 "                    <td class=\"text-right table-actions\"> <a class=\"table-action hover-primary\" href=\"#\" data-toggle=\"modal\" data-target=\"#modal-center-edit\"><i class=\"ti-pencil\"></i></a> \n" +
-                "                    <a class=\"table-action hover-danger play-button\" href=\"javascript:void(0)\"><i class=\"fa fa-play\"></i></a> \n" +
+                "                    <a class=\"table-action hover-danger play-button\"  onclick=\"sendParam()\"><i class=\"fa fa-play\"></i></a> \n" +
                 "                    </div>\n" +
                 "                    </div> \n" +
                 "                    </td> \n" +
@@ -726,6 +726,8 @@
         $('th').css("border", "1px solid green");
 
     });
+
+    // href="javascript:void(0)"
 
     $("#search").keyup(function(){
         var searchText = $(this).val().toLowerCase();
@@ -739,17 +741,14 @@
     });
 
 
-// function sendParam(){
-//
-// }
-//      $.ajax({
-//          url: '/result',
-//          type: 'POST',
-//          data:
-//
-//
-//
-// }
+function sendParam(){
+    $.ajax({
+        url: '/result',
+        type: 'POST',
+    });
+
+}
+
 
 
 
@@ -803,6 +802,7 @@ function showDetails(){
         var r =  confirm("Are you sure of your selection");
         if (r == true) {
             $(this).find('i').toggleClass('fa fa-play fa fa-pause');
+
         } else {
         }
 

@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 
-
 public class ScanappApplication  {
 
     public static void main(String[] args) {

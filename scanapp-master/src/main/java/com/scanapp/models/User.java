@@ -1,10 +1,16 @@
 package com.scanapp.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -13,6 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
 
         @Column(name = "id")
         private  Long id ;
@@ -31,9 +38,10 @@ public class User {
         @NotEmpty(message = "Please provide an e-mail")
         private String email;
 
-
         @Column(name="password")
         private String password;
+
+        private String role;
 
     public String getRole() {
         return role;
@@ -43,8 +51,25 @@ public class User {
         this.role = role;
     }
 
-        @Column(name="role")
-        private String role;
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonBackReference
+    private Set<Role> roles;
+
+
+
+
+
 
     public String getPassword() {
         return password;
