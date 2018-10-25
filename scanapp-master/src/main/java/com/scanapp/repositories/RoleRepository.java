@@ -1,3 +1,4 @@
+//Role Repositoty
 package com.scanapp.repositories;
 
 import com.scanapp.models.Role;

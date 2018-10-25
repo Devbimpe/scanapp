@@ -1,3 +1,4 @@
+//User Model
 package com.scanapp.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
